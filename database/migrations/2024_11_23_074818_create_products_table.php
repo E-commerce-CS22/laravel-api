@@ -15,11 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
+            $table->enum('discount_type', ['percentage', 'fixed'])->nullable(); // Added discount type
             $table->decimal('price', 10, 2);
+            $table->decimal('discount_value', 10, 2)->nullable();      // Added discount value
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
         });
     }
+    
 
     /**
      * Reverse the migrations.
