@@ -16,4 +16,10 @@ class Product extends Model
         return $this->belongsToMany(Cart::class, 'cart_product', 'product_id', 'cart_id')->withPivot('quantity')->withTimestamps();
     }
 
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
+    }
+
+
 }
