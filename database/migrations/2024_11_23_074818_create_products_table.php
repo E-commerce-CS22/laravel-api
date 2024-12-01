@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -15,14 +14,16 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->enum('discount_type', ['percentage', 'fixed'])->nullable(); // Added discount type
+            $table->enum('discount_type', ['percentage', 'fixed'])->nullable();
             $table->decimal('price', 10, 2);
-            $table->decimal('discount_value', 10, 2)->nullable();      // Added discount value
+            $table->decimal('discount_value', 10, 2)->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->timestamp('discount_start_date')->nullable();
+            $table->timestamp('discount_end_date')->nullable();
             $table->timestamps();
         });
     }
-    
+
 
     /**
      * Reverse the migrations.
