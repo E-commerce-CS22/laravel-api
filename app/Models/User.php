@@ -55,4 +55,25 @@ class User extends Authenticatable
     {
         return $this->hasOne(Customer::class);
     }
+
+    public function admin()
+    {
+        return $this->hasOne(Admin::class);
+    }
+
+    /**
+     * Get user type (admin or customer)
+     *
+     * @return string
+     */
+    public function getUserType()
+    {
+        if ($this->admin) {
+            return 'admin';
+        }
+        if ($this->customer) {
+            return 'customer';
+        }
+        return 'unknown';
+    }
 }
