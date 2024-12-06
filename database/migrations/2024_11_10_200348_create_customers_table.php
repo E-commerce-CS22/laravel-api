@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->string('address')->nullable();
-            $table->string('city')->nullable();
+            $table->string('address');
+            $table->string('city');
+            $table->string('postal_code')->nullable();
+            $table->string('country')->default('المملكة العربية السعودية');
             $table->timestamps();
         });
     }
