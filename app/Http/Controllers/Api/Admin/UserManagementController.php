@@ -19,7 +19,17 @@ class UserManagementController extends Controller
     public function __construct(UserService $userService)
     {
         $this->userService = $userService;
-        $this->middleware(['auth:sanctum', 'abilities:admin']);
+    }
+
+    /**
+     * Check if the user is an admin
+     *
+     * @param Request $request
+     * @return bool
+     */
+    private function isAdmin(Request $request)
+    {
+        return $request->user() && $request->user()->admin()->exists();
     }
 
     /**
@@ -27,10 +37,26 @@ class UserManagementController extends Controller
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = $this->userService->getAllUsers();
-        return UserResource::collection($users);
+        if (!$this->isAdmin($request)) {
+            return response()->json([
+                'message' => 'Unauthorized. Only admins can access this area.'
+            ], Response::HTTP_FORBIDDEN);
+        }
+
+        try {
+            $users = $this->userService->getAllUsers();
+            return UserResource::collection($users);
+        } catch (\Exception $e) {
+            \Log::error('Error in UserManagementController@index: ' . $e->getMessage());
+            \Log::error($e->getTraceAsString());
+            
+            return response()->json([
+                'message' => 'An error occurred while fetching users',
+                'error' => $e->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
@@ -42,11 +68,26 @@ class UserManagementController extends Controller
      */
     public function updateStatus(UpdateUserStatusRequest $request, User $user)
     {
-        $this->userService->updateStatus($user, $request->status);
-        
-        return response()->json([
-            'message' => 'User status updated successfully',
-            'data' => new UserResource($user)
-        ], Response::HTTP_OK);
+        if (!$this->isAdmin($request)) {
+            return response()->json([
+                'message' => 'Unauthorized. Only admins can access this area.'
+            ], Response::HTTP_FORBIDDEN);
+        }
+
+        try {
+            $this->userService->updateStatus($user, $request->status);
+            
+            return response()->json([
+                'message' => 'User status updated successfully',
+                'data' => new UserResource($user)
+            ], Response::HTTP_OK);
+        } catch (\Exception $e) {
+            \Log::error('Error in UserManagementController@updateStatus: ' . $e->getMessage());
+            
+            return response()->json([
+                'message' => 'An error occurred while updating user status',
+                'error' => $e->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 }

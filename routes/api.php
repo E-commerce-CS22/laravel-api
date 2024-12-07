@@ -1,24 +1,31 @@
 <?php
 
-use App\Http\Controllers\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Admin\UserManagementController;
+use App\Http\Controllers\Api\Admin\AdminAuthController;
+use App\Http\Controllers\Api\Customer\CustomerAuthController;
+use App\Http\Controllers\Api\Admin\UserManagementController;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+// Public routes
+Route::post('/admin/login', [AdminAuthController::class, 'login']);
+Route::post('/customer/login', [CustomerAuthController::class, 'login']);
+Route::post('/customer/register', [CustomerAuthController::class, 'register']);
 
-Route::apiResource('posts', PostController::class);
+// Protected Admin routes
+Route::middleware('auth:sanctum')->group(function () {
+    Route::prefix('admin')->group(function () {
+        Route::get('/logout', [AdminAuthController::class, 'logout']);
+        
+        // User Management
+        Route::get('/users', [UserManagementController::class, 'index']);
+        Route::patch('/users/{user}/status', [UserManagementController::class, 'updateStatus']);
+    });
+});
 
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
-
-// Admin Routes
-Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
-    // User Management
-    Route::get('/users', [UserManagementController::class, 'index']);
-    Route::patch('/users/{user}/status', [UserManagementController::class, 'updateStatus']);
+// Protected Customer routes
+Route::middleware('auth:sanctum')->group(function () {
+    Route::prefix('customer')->group(function () {
+        Route::get('/logout', [CustomerAuthController::class, 'logout']);
+        // Add other customer-specific routes here
+    });
 });

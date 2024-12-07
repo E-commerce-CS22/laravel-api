@@ -68,12 +68,17 @@ class User extends Authenticatable
      */
     public function getUserType()
     {
-        if ($this->admin) {
-            return 'admin';
+        try {
+            if ($this->admin()->exists()) {
+                return 'admin';
+            }
+            if ($this->customer()->exists()) {
+                return 'customer';
+            }
+            return 'unknown';
+        } catch (\Exception $e) {
+            \Log::error('Error in User@getUserType: ' . $e->getMessage());
+            return 'unknown';
         }
-        if ($this->customer) {
-            return 'customer';
-        }
-        return 'unknown';
     }
 }
