@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('address');
             $table->string('city');
             $table->string('postal_code')->nullable();
-            $table->string('country')->default('المملكة العربية السعودية');
+            $table->string('country')->default('اليمن');
             $table->timestamps();
         });
 
@@ -49,7 +49,7 @@ return new class extends Migration
             $table->string('address');
             $table->string('city');
             $table->string('postal_code')->nullable();
-            $table->string('country')->default('المملكة العربية السعودية');
+            $table->string('country')->default('اليمن');
             $table->timestamps();
         });
 
