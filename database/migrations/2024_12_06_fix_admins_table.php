@@ -17,6 +17,7 @@ return new class extends Migration
         // Create the new admins table with proper relationship
         Schema::create('admins', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             // Add any admin-specific fields here if needed
             $table->timestamps();

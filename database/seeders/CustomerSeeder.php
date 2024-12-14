@@ -316,17 +316,17 @@ class CustomerSeeder extends Seeder
         
         foreach ($customerData as $data) {
             $user = User::create([
-                'first_name' => $data['first_name'],
-                'last_name' => $data['last_name'],
                 'email' => $data['email'],
                 'username' => $data['username'],
-                'phone' => $data['phone'],
                 'password' => Hash::make('password123'),
                 'status' => 'active',
             ]);
 
             Customer::create([
                 'user_id' => $user->id,
+                'first_name' => $data['first_name'],
+                'last_name' => $data['last_name'],
+                'phone' => $data['phone'],
                 'address' => $data['address'],
                 'city' => $data['city'],
                 'postal_code' => $data['postal_code'],
