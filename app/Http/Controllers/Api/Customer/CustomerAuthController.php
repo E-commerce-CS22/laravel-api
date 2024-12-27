@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\UserResource;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Auth;
 
 class CustomerAuthController extends Controller
 {
@@ -20,34 +21,42 @@ class CustomerAuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|exists:users',
-            'password' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|string',
         ]);
 
-        $user = User::where('email', $request->email)->first();
-
-        // Check if user exists and password is correct
-        if (!$user || !Hash::check($request->password, $user->password)) {
+        // Attempt to authenticate
+        if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
                 'message' => 'Invalid credentials'
             ], Response::HTTP_UNAUTHORIZED);
         }
 
-        // Check if user is a customer
+        $user = User::where('email', $request->email)->firstOrFail();
+
+        // Check if user has a customer profile
         if (!$user->customer) {
+            Auth::logout();
             return response()->json([
-                'message' => 'Invalid account type. Please use the customer app to login.'
+                'message' => 'This account is not registered as a customer'
+            ], Response::HTTP_UNAUTHORIZED);
+        }
+
+        // Check if user is active
+        if ($user->status !== 'active') {
+            Auth::logout();
+            return response()->json([
+                'message' => 'Your account is not active. Please contact support.'
             ], Response::HTTP_FORBIDDEN);
         }
 
-        // Create token with customer ability
+        // Create new token
         $token = $user->createToken('customer-token', ['customer']);
 
         return response()->json([
-            'message' => 'Login successful',
             'user' => new UserResource($user),
             'token' => $token->plainTextToken
-        ], Response::HTTP_OK);
+        ]);
     }
 
     /**
@@ -74,33 +83,43 @@ class CustomerAuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
             'username' => 'required|string|unique:users',
-            'phone' => 'required|string|unique:users',
             'password' => 'required|string|min:8|confirmed',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'phone' => 'required|string',
             'address' => 'required|string',
             'city' => 'required|string',
             'postal_code' => 'nullable|string',
+            'country' => 'nullable|string', // Add country validation
+            'profile' => 'nullable|string', // Add profile validation
         ]);
 
         // Create user
         $user = User::create([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
             'email' => $request->email,
             'username' => $request->username,
-            'phone' => $request->phone,
             'password' => Hash::make($request->password),
+            'profile' => $request->profile, // Save profile if provided
             'status' => 'inactive', // New customers start as inactive
         ]);
 
-        // Create customer profile
-        $user->customer()->create([
+        // Ensure all required fields are provided
+        if (!$request->has(['first_name', 'last_name', 'phone', 'address', 'city'])) {
+            return response()->json([
+                'message' => 'Missing required customer information.'
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        $customer = $user->customer()->create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'phone' => $request->phone,
             'address' => $request->address,
             'city' => $request->city,
             'postal_code' => $request->postal_code,
+            'country' => $request->country ?? 'اليمن', // Default to Yemen if not provided
         ]);
 
         // Create token with customer ability

@@ -7,11 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Customer extends Model
 {
     protected $fillable = [
+        'first_name',
+        'last_name',
+        'phone',
         'user_id',
         'address',
         'city',
         'postal_code',
-        'country'
+        'country',
+        'profile', // Add profile to fillable fields
     ];
 
     public function user()
