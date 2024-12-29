@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Admin\AdminAuthController;
 use App\Http\Controllers\Api\Customer\CustomerAuthController;
 use App\Http\Controllers\Api\Admin\UserManagementController;
+use App\Http\Controllers\Api\Admin\CategoryManagementController;
 
 // Public routes
 Route::post('/admin/login', [AdminAuthController::class, 'login']);
@@ -19,6 +20,12 @@ Route::middleware('auth:sanctum')->group(function () {
         // User Management
         Route::get('/users', [UserManagementController::class, 'index']);
         Route::patch('/users/{user}/status', [UserManagementController::class, 'updateStatus']);
+        
+        // Category Management
+        Route::get('/categories', [CategoryManagementController::class, 'index']);
+        Route::post('/categories', [CategoryManagementController::class, 'store']);
+        Route::put('/categories/{category}', [CategoryManagementController::class, 'update']);
+        Route::delete('/categories/{category}', [CategoryManagementController::class, 'destroy']);
     });
 });
 
