@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('name'); // Category name
             $table->string('slug'); 
+            $table->string('color')->nullable(); // Optional color code
             $table->text('description')->nullable(); // Optional description
             $table->timestamps();
         });
