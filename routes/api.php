@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\Admin\AdminAuthController;
 use App\Http\Controllers\Api\Customer\CustomerAuthController;
 use App\Http\Controllers\Api\Admin\UserManagementController;
 use App\Http\Controllers\Api\Admin\CategoryManagementController;
+use App\Http\Controllers\Api\Admin\TagController;
 
 // Public routes
 Route::post('/admin/login', [AdminAuthController::class, 'login']);
@@ -26,6 +27,13 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/categories', [CategoryManagementController::class, 'store']);
         Route::put('/categories/{category}', [CategoryManagementController::class, 'update']);
         Route::delete('/categories/{category}', [CategoryManagementController::class, 'destroy']);
+        
+        // Tag Management
+        Route::get('/tags', [TagController::class, 'index']);
+        Route::get('/tags/{id}', [TagController::class, 'show']);
+        Route::post('/tags', [TagController::class, 'store']);
+        Route::put('/tags/{id}', [TagController::class, 'update']);
+        Route::delete('/tags/{id}', [TagController::class, 'destroy']);
     });
 });
 
