@@ -42,8 +42,14 @@ class AdminSeeder extends Seeder
                 'username' => 'hamdan_aghbari',
                 'phone' => '967738567890',
             ],
+            [
+                'name' => 'محمد المجيدي',
+                'email' => 'hamdan.aghbari@example.com',
+                'username' => 'hamdan_aghbari',
+                'phone' => '967738567890',
+            ],
         ];
-        
+
 
         foreach ($adminData as $data) {
             $user = User::create([
@@ -55,7 +61,7 @@ class AdminSeeder extends Seeder
 
             Admin::create([
                 'user_id' => $user->id,
-                'name'=> $data['name'],
+                'name' => $data['name'],
             ]);
         }
     }
