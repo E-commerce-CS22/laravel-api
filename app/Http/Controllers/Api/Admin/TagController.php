@@ -7,8 +7,6 @@ use App\Models\Tag;
 use App\Services\TagService;
 use App\Http\Resources\TagResource;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Database\QueryException;
 use Exception;
 
 class TagController extends Controller
