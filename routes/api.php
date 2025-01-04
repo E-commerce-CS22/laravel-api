@@ -51,6 +51,13 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('customer')->group(function () {
         Route::get('/logout', [CustomerAuthController::class, 'logout']);
-        // Add other customer-specific routes here
+        
+        // Customer Product Management
+        Route::get('/products', [App\Http\Controllers\Api\Customer\ProductController::class, 'index']);
+        Route::get('/products/{product}', [App\Http\Controllers\Api\Customer\ProductController::class, 'show']);
+        
+        // Customer Profile Management
+        Route::get('/profile', [App\Http\Controllers\Api\Customer\ProfileController::class, 'show']);
+        Route::put('/profile', [App\Http\Controllers\Api\Customer\ProfileController::class, 'update']);
     });
 });

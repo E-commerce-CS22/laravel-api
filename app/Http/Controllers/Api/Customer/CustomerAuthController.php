@@ -102,7 +102,7 @@ class CustomerAuthController extends Controller
             'username' => $request->username,
             'password' => Hash::make($request->password),
             'profile' => $request->profile, // Save profile if provided
-            'status' => 'inactive', // New customers start as inactive
+            'status' => 'active', // New customers start as inactive
         ]);
 
         // Ensure all required fields are provided
