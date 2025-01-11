@@ -13,53 +13,6 @@ use Illuminate\Support\Facades\Auth;
 class CustomerAuthController extends Controller
 {
     /**
-     * Customer login
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function login(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string',
-        ]);
-
-        // Attempt to authenticate
-        if (!Auth::attempt($request->only('email', 'password'))) {
-            return response()->json([
-                'message' => 'Invalid credentials'
-            ], Response::HTTP_UNAUTHORIZED);
-        }
-
-        $user = User::where('email', $request->email)->firstOrFail();
-
-        // Check if user has a customer profile
-        if (!$user->customer) {
-            Auth::logout();
-            return response()->json([
-                'message' => 'This account is not registered as a customer'
-            ], Response::HTTP_UNAUTHORIZED);
-        }
-
-        // Check if user is active
-        if ($user->status !== 'active') {
-            Auth::logout();
-            return response()->json([
-                'message' => 'Your account is not active. Please contact support.'
-            ], Response::HTTP_FORBIDDEN);
-        }
-
-        // Create new token
-        $token = $user->createToken('customer-token', ['customer']);
-
-        return response()->json([
-            'user' => new UserResource($user),
-            'token' => $token->plainTextToken
-        ]);
-    }
-
-    /**
      * Customer logout
      *
      * @param Request $request
