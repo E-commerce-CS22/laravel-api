@@ -16,6 +16,14 @@ Route::apiResource('products', ProductController::class);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/customer/register', [CustomerAuthController::class, 'register']);
 
+// Swagger documentation routes
+Route::get('/docs', function () {
+    return view('swagger.index');
+});
+Route::get('/docs.json', function () {
+    return response()->file(base_path('public/docs/swagger.json'));
+});
+
 // Protected Admin routes
 Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('admin')->group(function () {

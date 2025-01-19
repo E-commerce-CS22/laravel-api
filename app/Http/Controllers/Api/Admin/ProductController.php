@@ -16,12 +16,30 @@ class ProductController extends Controller
         $this->productService = $productService;
     }
 
+    /**
+     * @OA\Get(
+     *     path="/admin/products",
+     *     summary="Get list of products (Admin)",
+     *     @OA\Response(response=200, description="Successful operation")
+     * )
+     */
     public function index()
     {
         $products = $this->productService->getAllProducts();
         return ProductResource::collection($products);
     }
 
+    /**
+     * @OA\Post(
+     *     path="/admin/products",
+     *     summary="Create a new product (Admin)",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/Product")
+     *     ),
+     *     @OA\Response(response=201, description="Product created successfully")
+     * )
+     */
     public function store(Request $request)
     {
         $data = $request->all();
@@ -29,12 +47,44 @@ class ProductController extends Controller
         return new ProductResource($product);
     }
 
+    /**
+     * @OA\Get(
+     *     path="/admin/products/{id}",
+     *     summary="Get a product by ID (Admin)",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Successful operation"),
+     *     @OA\Response(response=404, description="Product not found")
+     * )
+     */
     public function show($id)
     {
         $product = $this->productService->getProductById($id);
         return new ProductResource($product);
     }
 
+    /**
+     * @OA\Put(
+     *     path="/admin/products/{id}",
+     *     summary="Update a product by ID (Admin)",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/Product")
+     *     ),
+     *     @OA\Response(response=200, description="Product updated successfully"),
+     *     @OA\Response(response=404, description="Product not found")
+     * )
+     */
     public function update(Request $request, $id)
     {
         $data = $request->all();
@@ -42,6 +92,20 @@ class ProductController extends Controller
         return new ProductResource($product);
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/admin/products/{id}",
+     *     summary="Delete a product by ID (Admin)",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Product deleted successfully"),
+     *     @OA\Response(response=404, description="Product not found")
+     * )
+     */
     public function destroy($id)
     {
         $product = $this->productService->deleteProduct($id);
