@@ -1,5 +1,4 @@
 <?php
-
 namespace Database\Seeders;
 
 use App\Models\Tag;
@@ -9,8 +8,8 @@ class TagSeeder extends Seeder
 {
     public function run(): void
     {
-        $tags = array_unique([
-            'رخيص', 'متوسط السعر', 'غالي', 'فاخر', 'اقتصادي',
+        $tags = [
+            'متوسط السعر', 'غالي', 'فاخر', 'اقتصادي',
             'أحمر', 'أزرق', 'أخضر', 'أصفر', 'أسود', 'أبيض', 'وردي', 'بنفسجي', 'برتقالي', 'بني', 'رمادي',
             'كحلي', 'زيتي', 'تركواز', 'فضي', 'ذهبي', 'عاجي', 'خردلي', 'بيج', 'قرمزي', 'فيروزي', 'زهر',
             'صغير', 'متوسط', 'كبير', 'ضخم',
@@ -35,12 +34,13 @@ class TagSeeder extends Seeder
             'إلكتروني', 'يدوي', 'ذكي', 'تقني',
             'مضاد للماء', 'مضاد للصدمات', 'خفيف الوزن', 'محمول',
             'عربي', 'أجنبي',
-        ]);
-        
+        ];
 
         foreach ($tags as $tagName) {
-            Tag::create([
-                'name' => $tagName,
+            // Use firstOrCreate to avoid inserting duplicates
+            Tag::firstOrCreate([
+                'name' => $tagName
+            ], [
                 'slug' => str_replace(' ', '-', $tagName),
             ]);
         }

@@ -21,6 +21,7 @@ class CustomerSeeder extends Seeder
                 'address' => 'شارع الستين، حي السبعين',
                 'city' => 'صنعاء',
                 'postal_code' => '11001',
+                'cart_id' => 1,
             ],
             [
                 'first_name' => 'أروى',
@@ -31,6 +32,7 @@ class CustomerSeeder extends Seeder
                 'address' => 'شارع التحرير، حي كريتر',
                 'city' => 'عدن',
                 'postal_code' => '12002',
+                'cart_id' => 2,
             ],
             [
                 'first_name' => 'معاذ',
@@ -41,6 +43,7 @@ class CustomerSeeder extends Seeder
                 'address' => 'شارع جمال، حي القاهرة',
                 'city' => 'تعز',
                 'postal_code' => '13003',
+                'cart_id' => 3,
             ],
             [
                 'first_name' => 'سميرة',
@@ -51,6 +54,7 @@ class CustomerSeeder extends Seeder
                 'address' => 'شارع صنعاء، حي الحالي',
                 'city' => 'الحديدة',
                 'postal_code' => '14004',
+                'cart_id' => 4,
             ],
             [
                 'first_name' => 'نبيل',
@@ -61,6 +65,7 @@ class CustomerSeeder extends Seeder
                 'address' => 'شارع السلام، حي المظفر',
                 'city' => 'إب',
                 'postal_code' => '15005',
+                'cart_id' => 5,
             ],
             [
                 'first_name' => 'أمل',
@@ -71,6 +76,7 @@ class CustomerSeeder extends Seeder
                 'address' => 'شارع الخمسين، حي المعبر',
                 'city' => 'ذمار',
                 'postal_code' => '16006',
+                'cart_id' => 6,
             ],
             [
                 'first_name' => 'جمال',
@@ -81,6 +87,7 @@ class CustomerSeeder extends Seeder
                 'address' => 'شارع الميناء، حي الشيخ عثمان',
                 'city' => 'عدن',
                 'postal_code' => '17007',
+                'cart_id' => 7,
             ],
             [
                 'first_name' => 'رؤى',
@@ -91,6 +98,7 @@ class CustomerSeeder extends Seeder
                 'address' => 'شارع الزبيري، حي شعوب',
                 'city' => 'صنعاء',
                 'postal_code' => '18008',
+                'cart_id' => 8,
             ],
             [
                 'first_name' => 'طارق',
@@ -101,6 +109,7 @@ class CustomerSeeder extends Seeder
                 'address' => 'شارع الأربعين، حي صالة',
                 'city' => 'تعز',
                 'postal_code' => '19009',
+                'cart_id' => 9,
             ],
             [
                 'first_name' => 'هناء',
@@ -111,6 +120,7 @@ class CustomerSeeder extends Seeder
                 'address' => 'شارع صبر، حي الروضة',
                 'city' => 'مأرب',
                 'postal_code' => '20010',
+                'cart_id' => 10,
             ],
             [
                 'first_name' => 'أحمد',
@@ -121,6 +131,7 @@ class CustomerSeeder extends Seeder
                 'address' => 'شارع الحديدة، حي الجامعة',
                 'city' => 'إب',
                 'postal_code' => '21011',
+                'cart_id' => 11,
             ],
             [
                 'first_name' => 'منى',
@@ -131,6 +142,7 @@ class CustomerSeeder extends Seeder
                 'address' => 'شارع تعز، حي النهضة',
                 'city' => 'صنعاء',
                 'postal_code' => '22012',
+                'cart_id' => 12,
             ],
             [
                 'first_name' => 'خالد',
@@ -141,6 +153,7 @@ class CustomerSeeder extends Seeder
                 'address' => 'شارع المطار، حي الصافية',
                 'city' => 'عدن',
                 'postal_code' => '23013',
+                'cart_id' => 13,
             ],
             [
                 'first_name' => 'ندى',
@@ -151,6 +164,7 @@ class CustomerSeeder extends Seeder
                 'address' => 'شارع الحصبة، حي شميلة',
                 'city' => 'صنعاء',
                 'postal_code' => '24014',
+                'cart_id' => 14,
             ],
             [
                 'first_name' => 'عمر',
@@ -161,6 +175,7 @@ class CustomerSeeder extends Seeder
                 'address' => 'شارع بير باشا، حي المطار',
                 'city' => 'تعز',
                 'postal_code' => '25015',
+                'cart_id' => 15,
             ],
             [
                 'first_name' => 'إيمان',
@@ -171,6 +186,7 @@ class CustomerSeeder extends Seeder
                 'address' => 'شارع الزراعة، حي التحرير',
                 'city' => 'إب',
                 'postal_code' => '26016',
+                'cart_id' => 16,
             ],
             [
                 'first_name' => 'سعيد',
@@ -181,6 +197,7 @@ class CustomerSeeder extends Seeder
                 'address' => 'شارع الشهداء، حي الدائري',
                 'city' => 'عدن',
                 'postal_code' => '27017',
+                'cart_id' => 17,
             ],
             [
                 'first_name' => 'ليلى',
@@ -191,6 +208,7 @@ class CustomerSeeder extends Seeder
                 'address' => 'شارع 26 سبتمبر، حي الحوبان',
                 'city' => 'تعز',
                 'postal_code' => '28018',
+                'cart_id' => 18,
             ],
             [
                 'first_name' => 'مازن',
@@ -201,6 +219,7 @@ class CustomerSeeder extends Seeder
                 'address' => 'شارع حدة، حي بيت بوس',
                 'city' => 'صنعاء',
                 'postal_code' => '29019',
+                'cart_id' => 19,
             ],
             [
                 'first_name' => 'سامر',
@@ -211,6 +230,7 @@ class CustomerSeeder extends Seeder
                 'address' => 'شارع التحرير، حي الحديدة',
                 'city' => 'الحديدة',
                 'postal_code' => '30020',
+                'cart_id' => 20,
             ],
             [
                 'first_name' => 'فاطمة',
@@ -221,6 +241,7 @@ class CustomerSeeder extends Seeder
                 'address' => 'شارع الستين، حي الجامعة',
                 'city' => 'صنعاء',
                 'postal_code' => '31021',
+                'cart_id' => 21,
             ],
             [
                 'first_name' => 'محمد',
@@ -231,6 +252,7 @@ class CustomerSeeder extends Seeder
                 'address' => 'شارع القيادة، حي التحرير',
                 'city' => 'عدن',
                 'postal_code' => '32022',
+                'cart_id' => 22,
             ],
             [
                 'first_name' => 'عبدالله',
@@ -241,6 +263,7 @@ class CustomerSeeder extends Seeder
                 'address' => 'شارع الزبيري، حي الروضة',
                 'city' => 'تعز',
                 'postal_code' => '33023',
+                'cart_id' => 23,
             ],
             [
                 'first_name' => 'ريم',
@@ -251,6 +274,7 @@ class CustomerSeeder extends Seeder
                 'address' => 'شارع الخمسين، حي الجامعة',
                 'city' => 'إب',
                 'postal_code' => '34024',
+                'cart_id' => 24,
             ],
             [
                 'first_name' => 'أسامة',
@@ -261,6 +285,7 @@ class CustomerSeeder extends Seeder
                 'address' => 'شارع الثورة، حي الحوض',
                 'city' => 'عدن',
                 'postal_code' => '35025',
+                'cart_id' => 25,
             ],
             [
                 'first_name' => 'سارة',
@@ -271,6 +296,7 @@ class CustomerSeeder extends Seeder
                 'address' => 'شارع جمال، حي القبة',
                 'city' => 'صنعاء',
                 'postal_code' => '36026',
+                'cart_id' => 26,
             ],
             [
                 'first_name' => 'زياد',
@@ -281,6 +307,7 @@ class CustomerSeeder extends Seeder
                 'address' => 'شارع 14 أكتوبر، حي المعلا',
                 'city' => 'عدن',
                 'postal_code' => '37027',
+                'cart_id' => 27,
             ],
             [
                 'first_name' => 'رنا',
@@ -291,6 +318,7 @@ class CustomerSeeder extends Seeder
                 'address' => 'شارع الميناء، حي الجامعة',
                 'city' => 'الحديدة',
                 'postal_code' => '38028',
+                'cart_id' => 28,
             ],
             [
                 'first_name' => 'باسم',
@@ -301,6 +329,7 @@ class CustomerSeeder extends Seeder
                 'address' => 'شارع صعدة، حي الحصبة',
                 'city' => 'صنعاء',
                 'postal_code' => '39029',
+                'cart_id' => 29,
             ],
             [
                 'first_name' => 'هدى',
@@ -311,6 +340,7 @@ class CustomerSeeder extends Seeder
                 'address' => 'شارع الأربعين، حي المعافر',
                 'city' => 'تعز',
                 'postal_code' => '40030',
+                'cart_id' => 30,
             ],
         ];
         
@@ -330,6 +360,7 @@ class CustomerSeeder extends Seeder
                 'address' => $data['address'],
                 'city' => $data['city'],
                 'postal_code' => $data['postal_code'],
+                'cart_id' => $data['cart_id'],
             ]);
         }
     }

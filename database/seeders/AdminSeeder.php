@@ -42,12 +42,6 @@ class AdminSeeder extends Seeder
                 'username' => 'hamdan_aghbari',
                 'phone' => '967738567890',
             ],
-            [
-                'name' => 'محمد المجيدي',
-                'email' => 'hamdan.aghbari@example.com',
-                'username' => 'hamdan_aghbari',
-                'phone' => '967738567890',
-            ],
         ];
 
 

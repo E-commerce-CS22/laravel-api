@@ -13,12 +13,13 @@ class CartSeeder extends Seeder
      */
     public function run(): void
     {
+       
+    for ($i = 1; $i <= 30; $i++) {
         DB::table('carts')->insert([
-            ['id' => 1, 'created_at' => now(), 'updated_at' => now()],
-            ['id' => 2, 'created_at' => now(), 'updated_at' => now()],
-            ['id' => 3, 'created_at' => now(), 'updated_at' => now()],
+            'id' => $i,
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
-
-
+    }
     }
 }
