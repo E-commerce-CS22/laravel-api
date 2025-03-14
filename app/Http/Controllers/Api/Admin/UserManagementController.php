@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Models\User;
-use App\Models\Admin;
-use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\Services\UserService;
 use App\Http\Controllers\Controller;
