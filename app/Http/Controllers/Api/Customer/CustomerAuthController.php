@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Api\Customer;
 
 use App\Models\User;
+use App\Models\Cart;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\UserResource;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Api\CartController;
 
 class CustomerAuthController extends Controller
 {
@@ -45,8 +47,8 @@ class CustomerAuthController extends Controller
             'address' => 'required|string',
             'city' => 'required|string',
             'postal_code' => 'nullable|string',
-            'country' => 'nullable|string', // Add country validation
-            'profile' => 'nullable|string', // Add profile validation
+            'country' => 'nullable|string',
+            'profile' => 'nullable|string',
         ]);
 
         // Create user
@@ -74,6 +76,11 @@ class CustomerAuthController extends Controller
             'postal_code' => $request->postal_code,
             'country' => $request->country ?? 'اليمن', // Default to Yemen if not provided
         ]);
+
+        $cartController = new CartController(app()->make(\App\Services\CartService::class));
+        $cart = $cartController->create();
+        $customer->cart_id = $cart->id;
+        $customer->save();
 
         // Create token with customer ability
         $token = $user->createToken('customer-token', ['customer']);

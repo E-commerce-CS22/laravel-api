@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('city');
             $table->string('postal_code')->nullable();
             $table->string('country')->default('اليمن');
-            $table->foreignId('cart_id')->constrained('carts')->onDelete('cascade');
+            $table->unsignedBigInteger('cart_id')->nullable();
             $table->timestamps();
         });
     }
