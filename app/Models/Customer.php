@@ -15,7 +15,7 @@ class Customer extends Model
         'city',
         'postal_code',
         'country',
-        'profile', // Add profile to fillable fields
+        'profile',
     ];
 
     public function user()
@@ -26,5 +26,9 @@ class Customer extends Model
     public function cart()
     {
         return $this->belongsTo(Cart::class);
+    }
+    public function wishList()
+    {
+        return $this->belongsTo(WishList::class);
     }
 }

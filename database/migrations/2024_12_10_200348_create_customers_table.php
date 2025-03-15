@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('postal_code')->nullable();
             $table->string('country')->default('اليمن');
             $table->unsignedBigInteger('cart_id')->nullable();
+            $table->unsignedBigInteger('wishlist_id')->nullable();
             $table->timestamps();
         });
     }

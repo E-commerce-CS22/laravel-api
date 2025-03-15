@@ -3,14 +3,15 @@
 namespace App\Http\Controllers\Api\Customer;
 
 use App\Models\User;
-use App\Models\Cart;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\UserResource;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Api\CartController;
+use App\Http\Controllers\Api\WishListController;
+use App\Services\CartService;
+use App\Services\WishListService;
 
 class CustomerAuthController extends Controller
 {
@@ -77,9 +78,15 @@ class CustomerAuthController extends Controller
             'country' => $request->country ?? 'اليمن', // Default to Yemen if not provided
         ]);
 
-        $cartController = new CartController(app()->make(\App\Services\CartService::class));
+        $cartController = new CartController(app()->make(CartService::class));
         $cart = $cartController->create();
         $customer->cart_id = $cart->id;
+
+        $wishListController = new WishListController(app()->make(WishListService::class));
+        $wishList = $wishListController->create();
+        $customer->wishlist_id = $wishList->id;
+        $wishList->save();
+
         $customer->save();
 
         // Create token with customer ability
