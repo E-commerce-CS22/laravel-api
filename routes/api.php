@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\Admin\UserManagementController;
 use App\Http\Controllers\Api\Admin\CategoryManagementController;
 use App\Http\Controllers\Api\Admin\TagController;
 use App\Http\Controllers\Api\CartController;
+use App\Http\Controllers\Api\WishListController;
 
 // Public routes
 Route::apiResource('products', ProductController::class);
@@ -72,9 +73,17 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::prefix('cart')->group(function () {
+    Route::prefix('carts')->group(function () {
         Route::post('/{cartId}/products', [CartController::class, 'addProduct']);
         Route::delete('/{cartId}/products/{productId}', [CartController::class, 'deleteProduct']);
         Route::get('/{cartId}/products', [CartController::class, 'showProducts']);
+    });
+});
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::prefix('wishlists')->group(function () {
+        Route::post('/{wishListId}/products/{productId}', [WishListController::class, 'addProduct']);
+        Route::delete('/{wishListId}/products/{productId}', [WishListController::class, 'deleteProduct']);
+        Route::get('/{wishListId}/products', [WishListController::class, 'showProducts']);
     });
 });

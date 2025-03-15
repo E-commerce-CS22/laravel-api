@@ -15,4 +15,27 @@ class WishListRepository
     {
         return $this->wishList->create($data);
     }   
+
+    public function addProduct(int $wishListId, int $productId)
+    {
+        $wishList = $this->wishList->find($wishListId);
+        return $wishList->products()->attach($productId);
+    }
+
+    public function deleteProduct(int $wishListId, int $productId)
+    {
+        $wishList = $this->wishList->find($wishListId);
+        return $wishList->products()->detach($productId);
+    }
+
+    public function find(int $wishListId)
+    {
+        return $this->wishList->find($wishListId);
+    }
+
+    public function getProducts(int $wishListId)
+    {
+        $wishList = $this->wishList->find($wishListId);
+        return $wishList->products;
+    }
 }
