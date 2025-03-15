@@ -77,6 +77,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/{cartId}/products', [CartController::class, 'addProduct']);
         Route::delete('/{cartId}/products/{productId}', [CartController::class, 'deleteProduct']);
         Route::get('/{cartId}/products', [CartController::class, 'showProducts']);
+        Route::patch('/{cartId}/products/{productId}', [CartController::class, 'updateProductQuantity']);
     });
 });
 

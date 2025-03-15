@@ -39,4 +39,11 @@ class CartController extends Controller
         $products = $this->cartService->getProductsInCart($cartId);
         return response()->json($products);
     }
+
+    public function updateProductQuantity(Request $request, $cartId, $productId)
+    {
+        $quantity = $request->input('quantity');
+        $result = $this->cartService->updateProductQuantity($cartId, $productId, $quantity);
+        return response()->json($result);
+    }
 }

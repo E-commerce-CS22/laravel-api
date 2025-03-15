@@ -38,4 +38,10 @@ class CartRepository
     {
         return $this->cart->find($cartId);
     }
+
+    public function updateProductQuantity(int $cartId, int $productId, int $quantity)
+    {
+        $cart = $this->cart->find($cartId);
+        return $cart->products()->updateExistingPivot($productId, ['quantity' => $quantity]);
+    }
 }

@@ -34,4 +34,12 @@ class CartService
     {
         return $this->cartRepository->getProducts($cartId);
     }
+
+    public function updateProductQuantity(int $cartId, int $productId, int $quantity)
+    {
+        if ($quantity < 1) {
+            return response()->json(['message' => 'Quantity must be at least 1.'], 400);
+        }
+        return $this->cartRepository->updateProductQuantity($cartId, $productId, $quantity);
+    }
 }
