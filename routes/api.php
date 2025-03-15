@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\Customer\CustomerAuthController;
 use App\Http\Controllers\Api\Admin\UserManagementController;
 use App\Http\Controllers\Api\Admin\CategoryManagementController;
 use App\Http\Controllers\Api\Admin\TagController;
+use App\Http\Controllers\Api\CartController;
 
 // Public routes
 Route::apiResource('products', ProductController::class);
@@ -67,5 +68,13 @@ Route::middleware('auth:sanctum')->group(function () {
         // Customer Profile Management
         Route::get('/profile', [App\Http\Controllers\Api\Customer\ProfileController::class, 'show']);
         Route::put('/profile', [App\Http\Controllers\Api\Customer\ProfileController::class, 'update']);
+    });
+});
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::prefix('cart')->group(function () {
+        Route::post('/{cartId}/products', [CartController::class, 'addProduct']);
+        Route::delete('/{cartId}/products/{productId}', [CartController::class, 'deleteProduct']);
+        Route::get('/{cartId}/products', [CartController::class, 'showProducts']);
     });
 });

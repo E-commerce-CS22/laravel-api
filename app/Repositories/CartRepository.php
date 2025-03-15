@@ -15,4 +15,22 @@ class CartRepository
     {
         return $this->cart->create($data);
     }
+
+    public function addProduct(int $cartId, array $productData)
+    {
+        $cart = $this->cart->find($cartId);
+        return $cart->products()->attach($productData['product_id'], ['quantity' => $productData['quantity']]);
+    }
+
+    public function deleteProduct(int $cartId, int $productId)
+    {
+        $cart = $this->cart->find($cartId);
+        return $cart->products()->detach($productId);
+    }
+
+    public function getProducts(int $cartId)
+    {
+        $cart = $this->cart->find($cartId);
+        return $cart->products;
+    }
 }

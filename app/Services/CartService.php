@@ -15,4 +15,19 @@ class CartService
     {
         return $this->cartRepository->create($data);
     }
+
+    public function addProductToCart(int $cartId, array $productData)
+    {
+        return $this->cartRepository->addProduct($cartId, $productData);
+    }
+
+    public function deleteProductFromCart(int $cartId, int $productId)
+    {
+        return $this->cartRepository->deleteProduct($cartId, $productId);
+    }
+
+    public function getProductsInCart(int $cartId)
+    {
+        return $this->cartRepository->getProducts($cartId);
+    }
 }
