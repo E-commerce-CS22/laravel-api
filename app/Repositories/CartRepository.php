@@ -33,4 +33,9 @@ class CartRepository
         $cart = $this->cart->find($cartId);
         return $cart->products;
     }
+
+    public function find(int $cartId)
+    {
+        return $this->cart->find($cartId);
+    }
 }
