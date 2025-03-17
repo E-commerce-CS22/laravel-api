@@ -32,6 +32,8 @@ class UserResource extends JsonResource
                 'address' => $this->customer->address,
                 'city' => $this->customer->city,
                 'postal_code' => $this->customer->postal_code,
+                'cart_id' => $this->customer->cart_id,
+                'wishlist_id' => $this->customer->wishlist_id,
             ];
         }
 
