@@ -40,6 +40,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/categories', [CategoryManagementController::class, 'store']);
         Route::put('/categories/{category}', [CategoryManagementController::class, 'update']);
         Route::delete('/categories/{category}', [CategoryManagementController::class, 'destroy']);
+        Route::get('/categories/{category}', [CategoryManagementController::class, 'show']);
         
         // Tag Management
         Route::get('/tags', [TagController::class, 'index']);

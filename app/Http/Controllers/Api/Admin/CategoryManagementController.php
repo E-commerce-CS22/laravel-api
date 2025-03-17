@@ -118,4 +118,24 @@ class CategoryManagementController extends Controller
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+    public function show(Request $request, Category $category)
+    {
+        if (!$this->isAdmin($request)) {
+            return response()->json([
+                'message' => 'Unauthorized. Only admins can access this area.'
+            ], Response::HTTP_FORBIDDEN);
+        }
+
+        try {
+            return new CategoryResource($category);
+        } catch (\Exception $e) {
+            \Log::error('Error in CategoryManagementController@show: ' . $e->getMessage());
+
+            return response()->json([
+                'message' => 'An error occurred while fetching category details',
+                'error' => $e->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }
