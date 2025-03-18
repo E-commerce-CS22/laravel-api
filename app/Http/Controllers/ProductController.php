@@ -9,7 +9,7 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::with(['categories:name,color'])->get();
+        $products = Product::with(['tags:name,slug'])->get();
         return response()->json($products, 200);
     }
     public function store(Request $request)
@@ -27,7 +27,7 @@ class ProductController extends Controller
     }
     public function show($id)
     {
-        $product = Product::with(['categories:id,name,color'])->find($id);
+        $product = Product::with(['tags:id,name,slug'])->find($id);
 
         if (!$product) {
             return response()->json(['message' => 'Product not found'], 404);
@@ -63,6 +63,7 @@ class ProductController extends Controller
         }
 
         $product->categories()->detach();
+        $product->tags()->detach();
         $product->delete();
 
         return response()->json(['message' => 'Product deleted successfully'], 200);
