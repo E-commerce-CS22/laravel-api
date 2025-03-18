@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Services\CartService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
@@ -21,27 +22,47 @@ class CartController extends Controller
         return $cart;
     }
 
-    public function addProduct(Request $request, $cartId)
+    public function addProduct(Request $request)
     {
+        $customer = Auth::user()->customer;
+        if (!$customer || !$customer->cart) {
+            return response()->json(['message' => 'Cart not found for the customer.'], 404);
+        }
+        $cartId = $customer->cart->id;
         $productData = $request->all();
         $product = $this->cartService->addProductToCart($cartId, $productData);
         return response()->json($product, 201);
     }
 
-    public function deleteProduct($cartId, $productId)
+    public function deleteProduct($productId)
     {
+        $customer = Auth::user()->customer;
+        if (!$customer || !$customer->cart) {
+            return response()->json(['message' => 'Cart not found for the customer.'], 404);
+        }
+        $cartId = $customer->cart->id;
         $this->cartService->deleteProductFromCart($cartId, $productId);
         return response()->json(null, 204);
     }
 
-    public function showProducts($cartId)
+    public function showProducts()
     {
+        $customer = Auth::user()->customer;
+        if (!$customer || !$customer->cart) {
+            return response()->json(['message' => 'Cart not found for the customer.'], 404);
+        }
+        $cartId = $customer->cart->id;
         $products = $this->cartService->getProductsInCart($cartId);
         return response()->json($products);
     }
 
-    public function updateProductQuantity(Request $request, $cartId, $productId)
+    public function updateProductQuantity(Request $request, $productId)
     {
+        $customer = Auth::user()->customer;
+        if (!$customer || !$customer->cart) {
+            return response()->json(['message' => 'Cart not found for the customer.'], 404);
+        }
+        $cartId = $customer->cart->id;
         $quantity = $request->input('quantity');
         $result = $this->cartService->updateProductQuantity($cartId, $productId, $quantity);
         return response()->json($result);
