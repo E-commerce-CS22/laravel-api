@@ -7,31 +7,11 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-
-    /**
-     * @OA\Get(
-     *     path="/products",
-     *     summary="Get list of products",
-     *     @OA\Response(response=200, description="Successful operation")
-     * )
-     */
     public function index()
     {
-        $products = Product::all();
+        $products = Product::with(['categories:name,color'])->get(); // Include only name and color
         return response()->json($products, 200);
     }
-
-    /**
-     * @OA\Post(
-     *     path="/products",
-     *     summary="Create a new product",
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(ref="#/components/schemas/Product")
-     *     ),
-     *     @OA\Response(response=201, description="Product created successfully")
-     * )
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -45,24 +25,9 @@ class ProductController extends Controller
         return response()->json(['message' => 'Product created successfully', 'product' => $product], 201);
 
     }
-
-    /**
-     * @OA\Get(
-     *     path="/products/{id}",
-     *     summary="Get a product by ID",
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         required=true,
-     *         @OA\Schema(type="integer")
-     *     ),
-     *     @OA\Response(response=200, description="Successful operation"),
-     *     @OA\Response(response=404, description="Product not found")
-     * )
-     */
     public function show($id)
     {
-        $product = Product::find($id);
+        $product = Product::with(['categories:id,name,color'])->find($id); // Include only name and color
 
         if (!$product) {
             return response()->json(['message' => 'Product not found'], 404);
@@ -70,25 +35,7 @@ class ProductController extends Controller
 
         return response()->json($product, 200);
     }
-
-    /**
-     * @OA\Put(
-     *     path="/products/{id}",
-     *     summary="Update a product by ID",
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         required=true,
-     *         @OA\Schema(type="integer")
-     *     ),
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(ref="#/components/schemas/Product")
-     *     ),
-     *     @OA\Response(response=200, description="Product updated successfully"),
-     *     @OA\Response(response=404, description="Product not found")
-     * )
-     */
+     
     public function update(Request $request, $id)
     {
         $product = Product::find($id);
@@ -107,21 +54,6 @@ class ProductController extends Controller
 
         return response()->json(['message' => 'Product updated successfully', 'product' => $product], 200);
     }
-
-    /**
-     * @OA\Delete(
-     *     path="/products/{id}",
-     *     summary="Delete a product by ID",
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         required=true,
-     *         @OA\Schema(type="integer")
-     *     ),
-     *     @OA\Response(response=200, description="Product deleted successfully"),
-     *     @OA\Response(response=404, description="Product not found")
-     * )
-     */
     public function destroy($id)
     {
         $product = Product::find($id);
