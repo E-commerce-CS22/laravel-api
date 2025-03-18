@@ -27,8 +27,9 @@ class Customer extends Model
     {
         return $this->belongsTo(Cart::class);
     }
+
     public function wishList()
     {
-        return $this->belongsTo(WishList::class);
+        return $this->belongsTo(WishList::class, 'wishlist_id');
     }
 }

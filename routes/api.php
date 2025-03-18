@@ -84,8 +84,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('wishlists')->group(function () {
-        Route::post('/{wishListId}/products/{productId}', [WishListController::class, 'addProduct']);
-        Route::delete('/{wishListId}/products/{productId}', [WishListController::class, 'deleteProduct']);
-        Route::get('/{wishListId}/products', [WishListController::class, 'showProducts']);
+        Route::post('/products/{productId}', [WishListController::class, 'addProduct']);
+        Route::delete('/products/{productId}', [WishListController::class, 'deleteProduct']);
+        Route::get('/products', [WishListController::class, 'showProducts']);
     });
 });

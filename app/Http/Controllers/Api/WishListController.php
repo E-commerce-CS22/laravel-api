@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Services\WishListService;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class WishListController extends Controller
 {
@@ -21,20 +21,35 @@ class WishListController extends Controller
         return $wishListService;
     }
 
-    public function addProduct($wishListId, $productId)
+    public function addProduct($productId)
     {
+        $customer = Auth::user()->customer;
+        if (!$customer || !$customer->wishList) {
+            return response()->json(['message' => 'Wishlist not found for the customer.'], 404);
+        }
+        $wishListId = $customer->wishList->id;
         $product = $this->wishListService->addProductToWishList($wishListId, $productId);
         return response()->json($product, 201);
     }
 
-    public function deleteProduct($wishListId, $productId)
+    public function deleteProduct($productId)
     {
+        $customer = Auth::user()->customer;
+        if (!$customer || !$customer->wishList) {
+            return response()->json(['message' => 'Wishlist not found for the customer.'], 404);
+        }
+        $wishListId = $customer->wishList->id;
         $this->wishListService->deleteProductFromWishList($wishListId, $productId);
         return response()->json(null, 204);
     }
 
-    public function showProducts($wishListId)
+    public function showProducts()
     {
+        $customer = Auth::user()->customer;
+        if (!$customer || !$customer->wishList) {
+            return response()->json(['message' => 'Wishlist not found for the customer.'], 404);
+        }
+        $wishListId = $customer->wishList->id;
         $products = $this->wishListService->getProductsInWishList($wishListId);
         return response()->json($products);
     }
