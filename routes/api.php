@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\Admin\CategoryManagementController;
 use App\Http\Controllers\Api\Admin\TagController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\WishListController;
+use App\Http\Controllers\ProductCategoryController;
 
 // Public routes
 Route::apiResource('products', ProductController::class);
@@ -87,5 +88,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/products/{productId}', [WishListController::class, 'addProduct']);
         Route::delete('/products/{productId}', [WishListController::class, 'deleteProduct']);
         Route::get('/products', [WishListController::class, 'showProducts']);
+    });
+});
+
+Route::middleware('auth:sanctum')->group(function () {
+Route::prefix('products')->group(function () {
+        Route::post('/{product}/categories', [ProductCategoryController::class, 'store']);
+        Route::delete('/{product}/categories/{category}', [ProductCategoryController::class, 'destroy']);
     });
 });
