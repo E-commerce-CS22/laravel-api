@@ -42,7 +42,7 @@ class TagSeeder extends Seeder
                 'name' => $tagName
             ], [
                 'slug' => str_replace(' ', '-', $tagName),
-                'color' => '#000000',
+                'color' => sprintf('#%06X', mt_rand(0, 0xFFFFFF)), // Generate random color
             ]);
         }
     }
