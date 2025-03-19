@@ -28,6 +28,7 @@ class TagService
         if (isset($data['name'])) {
             $data['slug'] = Str::slug($data['name']);
         }
+        $data['color'] = $data['color'] ?? '#000000';
         return $this->tagRepository->create($data);
     }
 
@@ -35,6 +36,9 @@ class TagService
     {
         if (isset($data['name'])) {
             $data['slug'] = Str::slug($data['name']);
+        }
+        if (!isset($data['color'])) {
+            $data['color'] = '#000000';
         }
         return $this->tagRepository->update($id, $data);
     }

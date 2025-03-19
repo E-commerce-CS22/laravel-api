@@ -36,6 +36,7 @@ class TagController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'slug' => 'required|string|max:255',
+            'color' => 'nullable|string|regex:/^#[0-9A-Fa-f]{6}$/', // Validate hex color
         ]);
 
         // Check if the name already exists in the tags table
@@ -58,6 +59,7 @@ class TagController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'slug' => 'required|string|max:255',
+            'color' => 'nullable|string|regex:/^#[0-9A-Fa-f]{6}$/', // Validate hex color
         ]);
 
         // Check if the name already exists in the tags table (excluding the current tag)

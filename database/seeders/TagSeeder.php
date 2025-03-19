@@ -42,6 +42,7 @@ class TagSeeder extends Seeder
                 'name' => $tagName
             ], [
                 'slug' => str_replace(' ', '-', $tagName),
+                'color' => '#000000',
             ]);
         }
     }

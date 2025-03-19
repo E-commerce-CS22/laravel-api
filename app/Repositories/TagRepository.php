@@ -28,6 +28,7 @@ class TagRepository
         if (isset($data['name'])) {
             $data['slug'] = Str::slug($data['name']);
         }
+        $data['color'] = $data['color'] ?? '#000000';
         return $this->tag->create($data);
     }
 
@@ -35,6 +36,9 @@ class TagRepository
     {
         if (isset($data['name'])) {
             $data['slug'] = Str::slug($data['name']);
+        }
+        if (!isset($data['color'])) {
+            $data['color'] = '#000000';
         }
         $tag = $this->findById($id);
         $tag->update($data);
