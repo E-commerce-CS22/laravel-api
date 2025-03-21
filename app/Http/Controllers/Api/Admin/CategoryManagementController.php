@@ -8,6 +8,7 @@ use App\Services\CategoryService;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryResource;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryManagementController extends Controller
 {
@@ -53,8 +54,18 @@ class CategoryManagementController extends Controller
             ], Response::HTTP_FORBIDDEN);
         }
 
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'slug' => 'sometimes|required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
         try {
-            $category = $this->categoryService->createCategory($request->all());
+            if ($request->hasFile('image')) {
+                $validatedData['image'] = $request->file('image')->store('categories', 'public');
+            }
+
+            $category = $this->categoryService->createCategory($validatedData);
 
             return response()->json([
                 'message' => 'Category created successfully',
@@ -94,7 +105,6 @@ class CategoryManagementController extends Controller
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-
     public function destroy(Request $request, Category $category)
     {
         if (!$this->isAdmin($request)) {
@@ -104,6 +114,10 @@ class CategoryManagementController extends Controller
         }
 
         try {
+            if ($category->image) {
+                Storage::disk('public')->delete($category->image);
+            }
+
             $this->categoryService->deleteCategory($category);
 
             return response()->json([
@@ -130,8 +144,6 @@ class CategoryManagementController extends Controller
         try {
             return new CategoryResource($category);
         } catch (\Exception $e) {
-            \Log::error('Error in CategoryManagementController@show: ' . $e->getMessage());
-
             return response()->json([
                 'message' => 'An error occurred while fetching category details',
                 'error' => $e->getMessage()

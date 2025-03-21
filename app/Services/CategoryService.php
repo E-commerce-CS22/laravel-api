@@ -21,6 +21,9 @@ class CategoryService
 
     public function createCategory(array $data)
     {
+        if (!isset($data['image'])) {
+            $data['image'] = null; 
+        }
         return $this->categoryRepository->createCategory($data);
     }
 

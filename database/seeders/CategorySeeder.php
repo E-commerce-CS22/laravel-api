@@ -11,7 +11,6 @@ class CategorySeeder extends Seeder
     {
         
         $categories = [
-            // Main Technology Categories
             [
                 'name' => 'تقنية المعلومات',
                 'description' => 'كل ما يتعلق بتكنولوجيا المعلومات والحوسبة والبرمجة',
@@ -103,6 +102,7 @@ class CategorySeeder extends Seeder
                 'name' => $category['name'],
                 'description' => $category['description'],
                 'slug' => str_replace(' ', '-', $category['name']),
+                'image' => null,
             ]);
         }
     }
