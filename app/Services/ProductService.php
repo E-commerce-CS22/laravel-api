@@ -37,4 +37,34 @@ class ProductService
     {
         return $this->productRepository->delete($id);
     }
+    
+    /**
+     * Apply discount to a product
+     * 
+     * @param int $id
+     * @param array $discountData
+     * @return \App\Models\Product
+     */
+    public function applyDiscount($id, array $discountData)
+    {
+        return $this->productRepository->update($id, $discountData);
+    }
+    
+    /**
+     * Remove discount from a product
+     * 
+     * @param int $id
+     * @return \App\Models\Product
+     */
+    public function removeDiscount($id)
+    {
+        $discountData = [
+            'discount_type' => null,
+            'discount_value' => null,
+            'discount_start_date' => null,
+            'discount_end_date' => null
+        ];
+        
+        return $this->productRepository->update($id, $discountData);
+    }
 }

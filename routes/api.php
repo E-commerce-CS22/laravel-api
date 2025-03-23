@@ -57,6 +57,11 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/products/{product}', [ProductController::class, 'show']);
         Route::put('/products/{product}', [ProductController::class, 'update']);
         Route::delete('/products/{product}', [ProductController::class, 'destroy']);
+        
+        // Product Discount Management
+        Route::post('/products/{id}/discount', [App\Http\Controllers\Api\Admin\ProductController::class, 'applyDiscount']);
+        Route::put('/products/{id}/discount', [App\Http\Controllers\Api\Admin\ProductController::class, 'updateDiscount']);
+        Route::delete('/products/{id}/discount', [App\Http\Controllers\Api\Admin\ProductController::class, 'removeDiscount']);
     });
 });
 
