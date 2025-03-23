@@ -51,6 +51,103 @@ class ProductController extends Controller
         return new ProductResource($product);
     }
 
+    /**
+     * Get product summary information for admin before updating
+     * 
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getProductSummary($id)
+    {
+        try {
+            $product = $this->productService->getProductById($id);
+            
+            // Check if product has an active discount
+            $hasActiveDiscount = false;
+            $discountStatus = 'No discount';
+            
+            if ($product->discount_type && $product->discount_value) {
+                $now = Carbon::now();
+                $startDate = $product->discount_start_date ? Carbon::parse($product->discount_start_date) : null;
+                $endDate = $product->discount_end_date ? Carbon::parse($product->discount_end_date) : null;
+                
+                if ($startDate && $endDate) {
+                    if ($now->between($startDate, $endDate)) {
+                        $hasActiveDiscount = true;
+                        $discountStatus = 'Active';
+                    } elseif ($now->lt($startDate)) {
+                        $hasActiveDiscount = false;
+                        $discountStatus = 'Scheduled (Future)';
+                    } elseif ($now->gt($endDate)) {
+                        $hasActiveDiscount = false;
+                        $discountStatus = 'Expired';
+                    }
+                }
+            }
+            
+            // Format discount information
+            $discountInfo = null;
+            if ($product->discount_type && $product->discount_value) {
+                $discountInfo = [
+                    'type' => $product->discount_type,
+                    'value' => $product->discount_value,
+                    'formatted' => $product->discount_type === 'percentage' 
+                        ? "{$product->discount_value}%" 
+                        : "\${$product->discount_value}",
+                    'start_date' => $product->discount_start_date,
+                    'end_date' => $product->discount_end_date,
+                    'status' => $discountStatus,
+                    'is_active' => $hasActiveDiscount
+                ];
+            }
+            
+            // Calculate final price after discount if applicable
+            $finalPrice = $product->price;
+            if ($hasActiveDiscount) {
+                if ($product->discount_type === 'percentage') {
+                    $finalPrice = $product->price - ($product->price * ($product->discount_value / 100));
+                } else {
+                    $finalPrice = $product->price - $product->discount_value;
+                    if ($finalPrice < 0) $finalPrice = 0;
+                }
+            }
+            
+            // Get product categories
+            $categories = $product->categories ? $product->categories->pluck('name') : [];
+            
+            // Get product tags
+            $tags = $product->tags ? $product->tags->pluck('name') : [];
+            
+            // Build summary response
+            $summary = [
+                'id' => $product->id,
+                'name' => $product->name,
+                'description' => $product->description,
+                'price' => [
+                    'original' => $product->price,
+                    'final' => $finalPrice,
+                    'has_discount' => $hasActiveDiscount
+                ],
+                'discount' => $discountInfo,
+                'status' => $product->status,
+                'created_at' => $product->created_at,
+                'updated_at' => $product->updated_at
+            ];
+            
+            return response()->json([
+                'success' => true,
+                'data' => $summary
+            ]);
+            
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to retrieve product summary',
+                'error' => $e->getMessage()
+            ], 404);
+        }
+    }
+
     public function applyDiscount(Request $request, $id)
     {
         // Validate request
