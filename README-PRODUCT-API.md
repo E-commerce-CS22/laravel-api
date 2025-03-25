@@ -46,6 +46,13 @@ The database schema includes:
 | POST | `/api/admin/products/{id}/discount` | Apply discount to a product |
 | PUT | `/api/admin/products/{id}/discount` | Update product discount |
 | DELETE | `/api/admin/products/{id}/discount` | Remove discount from a product |
+| GET | `/api/admin/products/{productId}/variants` | List all variants for a product |
+| GET | `/api/admin/products/{productId}/variants/{variantId}` | Get a specific variant |
+| POST | `/api/admin/products/{productId}/variants` | Create a new variant for a product |
+| PUT | `/api/admin/products/{productId}/variants/{variantId}` | Update a variant |
+| DELETE | `/api/admin/products/{productId}/variants/{variantId}` | Delete a variant |
+| PATCH | `/api/admin/products/{productId}/variants/{variantId}/stock` | Update variant stock |
+| PATCH | `/api/admin/products/{productId}/variants/{variantId}/default` | Set a variant as the default |
 
 ## Request Parameters
 
@@ -261,6 +268,109 @@ Returns comprehensive product information including:
 - Discount information and status
 - Calculated final price
 - Related categories and tags
+
+### Managing Product Variants
+
+#### Listing All Variants for a Product
+
+```http
+GET /api/admin/products/1/variants
+```
+
+Returns a list of all variants for the specified product, including their attributes and images.
+
+#### Getting a Specific Variant
+
+```http
+GET /api/admin/products/1/variants/2
+```
+
+Returns detailed information about a specific variant, including:
+- Variant details (SKU, price, stock, etc.)
+- Attributes and their values
+- Images associated with the variant
+
+#### Creating a New Variant
+
+```http
+POST /api/admin/products/1/variants
+Content-Type: multipart/form-data
+```
+
+Request body:
+```json
+{
+  "sku": "PROD-GREEN-XL",
+  "price": 109.99,
+  "extra_price": 10,
+  "stock": 25,
+  "is_default": false,
+  "variant_title": "Green, Extra Large",
+  "attributes": [
+    {
+      "attribute_id": 1, // Color
+      "attribute_value_id": 3 // Green
+    },
+    {
+      "attribute_id": 2, // Size
+      "attribute_value_id": 4 // Extra Large
+    }
+  ],
+  "images": [
+    {
+      "file": "[multipart file upload]",
+      "alt_text": "Green variant",
+      "is_primary": true,
+      "sort_order": 0,
+      "image_type": "main"
+    }
+  ]
+}
+```
+
+#### Updating a Variant
+
+```http
+PUT /api/admin/products/1/variants/2
+Content-Type: multipart/form-data
+```
+
+Include only the fields you want to update. For images:
+- To update existing images, include the image ID
+- To add new images, include the file
+- Images not included in the request will be deleted
+
+#### Updating Variant Stock
+
+```http
+PATCH /api/admin/products/1/variants/2/stock
+Content-Type: application/json
+```
+
+Request body:
+```json
+{
+  "stock": 50
+}
+```
+
+This endpoint provides a quick way to update just the stock level of a variant without having to send all variant data.
+
+#### Setting a Variant as Default
+
+```http
+PATCH /api/admin/products/1/variants/2/default
+```
+
+This endpoint sets the specified variant as the default for the product. The previously default variant will be automatically set to non-default.
+
+#### Deleting a Variant
+
+```http
+DELETE /api/admin/products/1/variants/2
+```
+
+Deletes the specified variant. Note that a product must always have at least one variant, so you cannot delete the last remaining variant.
 
 ## Notes for Frontend Implementation
 
