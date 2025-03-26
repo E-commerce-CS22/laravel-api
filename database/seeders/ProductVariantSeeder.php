@@ -16,7 +16,6 @@ class ProductVariantSeeder extends Seeder
             [
                 'product_id' => 1,
                 'sku' => 'VARIANT-001',
-                'extra_price' => 10.50,
                 'stock' => 50,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -24,7 +23,6 @@ class ProductVariantSeeder extends Seeder
             [
                 'product_id' => 1,
                 'sku' => 'VARIANT-002',
-                'extra_price' => 15.75,
                 'stock' => 30,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -32,7 +30,6 @@ class ProductVariantSeeder extends Seeder
             [
                 'product_id' => 2,
                 'sku' => 'VARIANT-003',
-                'extra_price' => 5.00,
                 'stock' => 100,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -40,7 +37,6 @@ class ProductVariantSeeder extends Seeder
             [
                 'product_id' => 2,
                 'sku' => 'VARIANT-004',
-                'extra_price' => 8.25,
                 'stock' => 75,
                 'created_at' => now(),
                 'updated_at' => now(),
