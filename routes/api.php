@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\WishListController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductTagController;
+use App\Http\Controllers\Api\Admin\ProductVariantController;
 
 // Public routes
 Route::apiResource('products', ProductController::class);
@@ -63,6 +64,15 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/products/{id}/discount', [ProductController::class, 'applyDiscount']);
         Route::put('/products/{id}/discount', [ProductController::class, 'updateDiscount']);
         Route::delete('/products/{id}/discount', [ProductController::class, 'removeDiscount']);
+        
+        // Product Variant Management
+        Route::get('/products/{productId}/variants', [\App\Http\Controllers\Api\Admin\ProductVariantController::class, 'index']);
+        Route::get('/products/{productId}/variants/{variantId}', [\App\Http\Controllers\Api\Admin\ProductVariantController::class, 'show']);
+        Route::post('/products/{productId}/variants', [\App\Http\Controllers\Api\Admin\ProductVariantController::class, 'store']);
+        Route::put('/products/{productId}/variants/{variantId}', [\App\Http\Controllers\Api\Admin\ProductVariantController::class, 'update']);
+        Route::delete('/products/{productId}/variants/{variantId}', [\App\Http\Controllers\Api\Admin\ProductVariantController::class, 'destroy']);
+        Route::patch('/products/{productId}/variants/{variantId}/stock', [\App\Http\Controllers\Api\Admin\ProductVariantController::class, 'updateStock']);
+        Route::patch('/products/{productId}/variants/{variantId}/default', [\App\Http\Controllers\Api\Admin\ProductVariantController::class, 'setDefault']);
     });
 });
 
