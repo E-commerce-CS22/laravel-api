@@ -14,6 +14,8 @@ use App\Http\Controllers\Api\WishListController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductTagController;
 use App\Http\Controllers\Api\Admin\ProductVariantController;
+use App\Http\Controllers\Api\Admin\AttributeController;
+use App\Http\Controllers\Api\Admin\AttributeValueController;
 
 // Public routes
 Route::apiResource('products', ProductController::class);
@@ -73,6 +75,20 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/products/{productId}/variants/{variantId}', [\App\Http\Controllers\Api\Admin\ProductVariantController::class, 'destroy']);
         Route::patch('/products/{productId}/variants/{variantId}/stock', [\App\Http\Controllers\Api\Admin\ProductVariantController::class, 'updateStock']);
         Route::patch('/products/{productId}/variants/{variantId}/default', [\App\Http\Controllers\Api\Admin\ProductVariantController::class, 'setDefault']);
+        
+        // Attribute Management
+        Route::get('/attributes', [AttributeController::class, 'index']);
+        Route::get('/attributes/{id}', [AttributeController::class, 'show']);
+        Route::post('/attributes', [AttributeController::class, 'store']);
+        Route::put('/attributes/{id}', [AttributeController::class, 'update']);
+        Route::delete('/attributes/{id}', [AttributeController::class, 'destroy']);
+        
+        // Attribute Value Management
+        Route::get('/attributes/{attributeId}/values', [AttributeValueController::class, 'index']);
+        Route::get('/attributes/{attributeId}/values/{valueId}', [AttributeValueController::class, 'show']);
+        Route::post('/attributes/{attributeId}/values', [AttributeValueController::class, 'store']);
+        Route::put('/attributes/{attributeId}/values/{valueId}', [AttributeValueController::class, 'update']);
+        Route::delete('/attributes/{attributeId}/values/{valueId}', [AttributeValueController::class, 'destroy']);
     });
 });
 

@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Attribute extends Model
 {
+    protected $fillable = [
+        'name'
+    ];
+
     public function variants()
     {
         return $this->belongsToMany(ProductVariant::class, 'attribute_product_variant')
