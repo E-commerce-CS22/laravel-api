@@ -14,9 +14,12 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
             $table->string('sku')->unique();
-            $table->decimal('extra_price', 10, 2)->default(0);
+            $table->decimal('price', 10, 2)->nullable(); // Variant-specific price (overrides parent if set)
             $table->integer('stock')->default(0);
-            $table->timestamps();
+            $table->boolean('is_default')->default(false);
+            $table->string('variant_title')->nullable();
+            $table->json('images')->nullable(); // JSON array of image paths specific to this variant
+            $table->timestamps(); 
         });
     }
 
