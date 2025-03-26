@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-
 class Product extends Model
 {
     use HasFactory;
@@ -14,12 +13,20 @@ class Product extends Model
         'name',
         'description',
         'price',
+        'parent_id',
+        'is_parent',
         'discount_type',
         'discount_value',
         'status',
         'discount_start_date',
         'discount_end_date',
+        'images',
+        'attributes',
+        'sku',
+        'stock',
+        'is_default',
     ];
+
     public function wishlists()
     {
         return $this->belongsToMany(WishList::class, 'product_wishlist', 'product_id', 'wishlist_id');
@@ -43,5 +50,20 @@ class Product extends Model
     public function tags()
     {
         return $this->belongsToMany(Tag::class, 'product_tag');
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(Product::class, 'parent_id');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(Product::class, 'parent_id');
+    }
+
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class);
     }
 }

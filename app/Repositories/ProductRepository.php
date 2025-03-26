@@ -20,6 +20,17 @@ class ProductRepository
     {
         return Product::findOrFail($id);
     }
+    
+    public function findWhere(array $criteria)
+    {
+        $query = Product::query();
+        
+        foreach ($criteria as $key => $value) {
+            $query->where($key, $value);
+        }
+        
+        return $query->get();
+    }
 
     public function update($id, $data)
     {

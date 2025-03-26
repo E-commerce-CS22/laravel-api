@@ -8,6 +8,7 @@ use App\Services\ProductService;
 use App\Http\Resources\ProductResource;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -24,33 +25,235 @@ class ProductController extends Controller
         return ProductResource::collection($products);
     }
 
+    public function parentProducts()
+    {
+        $products = $this->productService->getParentProducts();
+        return ProductResource::collection($products);
+    }
+
     public function store(Request $request)
     {
-        $data = $request->all();
-        $product = $this->productService->createProduct($data);
-        return new ProductResource($product);
+        // Validate request
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
+            'is_parent' => 'sometimes|boolean',
+            'parent_id' => 'nullable|exists:products,id',
+            'status' => 'sometimes|in:active,inactive',
+            'categories' => 'sometimes|array',
+            'categories.*' => 'exists:categories,id',
+            'tags' => 'sometimes|array',
+            'tags.*' => 'exists:tags,id',
+            'images' => 'sometimes|array',
+            'images.*.file' => 'sometimes|file|image|max:5120', // 5MB max
+            'images.*.alt_text' => 'sometimes|string|max:255',
+            'images.*.is_primary' => 'sometimes|boolean',
+            'images.*.sort_order' => 'sometimes|integer',
+            'images.*.image_type' => 'sometimes|in:main,thumbnail,gallery,lifestyle',
+            'variants' => 'sometimes|array',
+            'variants.*.sku' => 'required_with:variants|string|max:100|unique:product_variants,sku',
+            'variants.*.price' => 'sometimes|numeric|min:0',
+            'variants.*.extra_price' => 'sometimes|numeric',
+            'variants.*.stock' => 'sometimes|integer|min:0',
+            'variants.*.is_default' => 'sometimes|boolean',
+            'variants.*.variant_title' => 'sometimes|string|max:255',
+            'variants.*.attributes' => 'sometimes|array',
+            'variants.*.attributes.*.attribute_id' => 'required_with:variants.*.attributes|exists:attributes,id',
+            'variants.*.attributes.*.attribute_value_id' => 'required_with:variants.*.attributes|exists:attribute_values,id',
+            'variants.*.images' => 'sometimes|array',
+            'variants.*.images.*.file' => 'sometimes|file|image|max:5120',
+            'variants.*.images.*.alt_text' => 'sometimes|string|max:255',
+            'variants.*.images.*.is_primary' => 'sometimes|boolean',
+            'variants.*.images.*.sort_order' => 'sometimes|integer',
+            'variants.*.images.*.image_type' => 'sometimes|in:main,thumbnail,gallery,lifestyle',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation error',
+                'errors' => $validator->errors()
+            ], 400);
+        }
+
+        try {
+            $data = $request->all();
+            
+            // Process product images if they exist
+            if ($request->hasFile('images')) {
+                $this->processImageFiles($data, $request);
+            }
+            
+            // Process variant images if they exist
+            if (isset($data['variants']) && is_array($data['variants'])) {
+                foreach ($data['variants'] as $key => $variant) {
+                    if (isset($variant['images']) && is_array($variant['images'])) {
+                        foreach ($variant['images'] as $imageKey => $image) {
+                            if (isset($image['file']) && $request->hasFile("variants.{$key}.images.{$imageKey}.file")) {
+                                $data['variants'][$key]['images'][$imageKey]['file'] = $request->file("variants.{$key}.images.{$imageKey}.file");
+                            }
+                        }
+                    }
+                }
+            }
+            
+            $product = $this->productService->createProduct($data);
+            
+            return response()->json([
+                'success' => true,
+                'message' => 'Product created successfully',
+                'data' => new ProductResource($product)
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to create product',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function show($id)
     {
-        $product = $this->productService->getProductById($id);
-        return new ProductResource($product);
+        try {
+            $product = $this->productService->getProductById($id);
+            return response()->json([
+                'success' => true,
+                'data' => new ProductResource($product)
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Product not found',
+                'error' => $e->getMessage()
+            ], 404);
+        }
     }
-
 
     public function update(Request $request, $id)
     {
-        $data = $request->all();
-        $product = $this->productService->updateProduct($id, $data);
-        return new ProductResource($product);
+        // Validate request
+        $validator = Validator::make($request->all(), [
+            'name' => 'sometimes|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'sometimes|numeric|min:0',
+            'is_parent' => 'sometimes|boolean',
+            'parent_id' => 'nullable|exists:products,id',
+            'status' => 'sometimes|in:active,inactive',
+            'categories' => 'sometimes|array',
+            'categories.*' => 'exists:categories,id',
+            'tags' => 'sometimes|array',
+            'tags.*' => 'exists:tags,id',
+            'images' => 'sometimes|array',
+            'images.*.id' => 'sometimes|exists:product_images,id',
+            'images.*.file' => 'sometimes|file|image|max:5120', // 5MB max
+            'images.*.alt_text' => 'sometimes|string|max:255',
+            'images.*.is_primary' => 'sometimes|boolean',
+            'images.*.sort_order' => 'sometimes|integer',
+            'images.*.image_type' => 'sometimes|in:main,thumbnail,gallery,lifestyle',
+            'variants' => 'sometimes|array',
+            'variants.*.id' => 'sometimes|exists:product_variants,id',
+            'variants.*.sku' => 'sometimes|string|max:100',
+            'variants.*.price' => 'sometimes|numeric|min:0',
+            'variants.*.extra_price' => 'sometimes|numeric',
+            'variants.*.stock' => 'sometimes|integer|min:0',
+            'variants.*.is_default' => 'sometimes|boolean',
+            'variants.*.variant_title' => 'sometimes|string|max:255',
+            'variants.*.attributes' => 'sometimes|array',
+            'variants.*.attributes.*.attribute_id' => 'required_with:variants.*.attributes|exists:attributes,id',
+            'variants.*.attributes.*.attribute_value_id' => 'required_with:variants.*.attributes|exists:attribute_values,id',
+            'variants.*.images' => 'sometimes|array',
+            'variants.*.images.*.id' => 'sometimes|exists:product_images,id',
+            'variants.*.images.*.file' => 'sometimes|file|image|max:5120',
+            'variants.*.images.*.alt_text' => 'sometimes|string|max:255',
+            'variants.*.images.*.is_primary' => 'sometimes|boolean',
+            'variants.*.images.*.sort_order' => 'sometimes|integer',
+            'variants.*.images.*.image_type' => 'sometimes|in:main,thumbnail,gallery,lifestyle',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation error',
+                'errors' => $validator->errors()
+            ], 400);
+        }
+
+        try {
+            $data = $request->all();
+            
+            // Process product images if they exist
+            if ($request->hasFile('images')) {
+                $this->processImageFiles($data, $request);
+            }
+            
+            // Process variant images if they exist
+            if (isset($data['variants']) && is_array($data['variants'])) {
+                foreach ($data['variants'] as $key => $variant) {
+                    if (isset($variant['images']) && is_array($variant['images'])) {
+                        foreach ($variant['images'] as $imageKey => $image) {
+                            if (isset($image['file']) && $request->hasFile("variants.{$key}.images.{$imageKey}.file")) {
+                                $data['variants'][$key]['images'][$imageKey]['file'] = $request->file("variants.{$key}.images.{$imageKey}.file");
+                            }
+                        }
+                    }
+                }
+            }
+            
+            $product = $this->productService->updateProduct($id, $data);
+            
+            return response()->json([
+                'success' => true,
+                'message' => 'Product updated successfully',
+                'data' => new ProductResource($product)
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to update product',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function destroy($id)
     {
-        $product = $this->productService->deleteProduct($id);
-        return new ProductResource($product);
+        try {
+            $product = $this->productService->deleteProduct($id);
+            
+            return response()->json([
+                'success' => true,
+                'message' => 'Product deleted successfully',
+                'data' => new ProductResource($product)
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to delete product',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
+    /**
+     * Process image files from the request
+     * 
+     * @param array &$data
+     * @param Request $request
+     * @return void
+     */
+    protected function processImageFiles(&$data, Request $request)
+    {
+        if (isset($data['images']) && is_array($data['images'])) {
+            foreach ($data['images'] as $key => $image) {
+                if (isset($image['file']) && $request->hasFile("images.{$key}.file")) {
+                    $data['images'][$key]['file'] = $request->file("images.{$key}.file");
+                }
+            }
+        }
+    }
+    
     /**
      * Get product summary information for admin before updating
      * 
