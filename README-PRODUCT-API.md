@@ -46,13 +46,33 @@ The database schema includes:
 | POST | `/api/admin/products/{id}/discount` | Apply discount to a product |
 | PUT | `/api/admin/products/{id}/discount` | Update product discount |
 | DELETE | `/api/admin/products/{id}/discount` | Remove discount from a product |
-| GET | `/api/admin/products/{productId}/variants` | List all variants for a product |
-| GET | `/api/admin/products/{productId}/variants/{variantId}` | Get a specific variant |
-| POST | `/api/admin/products/{productId}/variants` | Create a new variant for a product |
-| PUT | `/api/admin/products/{productId}/variants/{variantId}` | Update a variant |
-| DELETE | `/api/admin/products/{productId}/variants/{variantId}` | Delete a variant |
-| PATCH | `/api/admin/products/{productId}/variants/{variantId}/stock` | Update variant stock |
-| PATCH | `/api/admin/products/{productId}/variants/{variantId}/default` | Set a variant as the default |
+| GET | `/api/admin/products/{id}/variants` | List all variants for a product |
+| GET | `/api/admin/products/{id}/variants/{variantId}` | Get a specific variant |
+| POST | `/api/admin/products/{id}/variants` | Create a new variant for a product |
+| PUT | `/api/admin/products/{id}/variants/{variantId}` | Update a variant |
+| DELETE | `/api/admin/products/{id}/variants/{variantId}` | Delete a variant |
+| PATCH | `/api/admin/products/{id}/variants/{variantId}/stock` | Update variant stock |
+| PATCH | `/api/admin/products/{id}/variants/{variantId}/default` | Set a variant as the default |
+
+### Attribute Management (Independent)
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/admin/attributes` | List all attributes |
+| GET | `/api/admin/attributes/{id}` | Get a specific attribute with its values |
+| POST | `/api/admin/attributes` | Create a new attribute |
+| PUT | `/api/admin/attributes/{id}` | Update an attribute |
+| DELETE | `/api/admin/attributes/{id}` | Delete an attribute |
+
+### Attribute Value Management (Independent)
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/admin/attributes/{attributeId}/values` | List all values for an attribute |
+| GET | `/api/admin/attributes/{attributeId}/values/{valueId}` | Get a specific attribute value |
+| POST | `/api/admin/attributes/{attributeId}/values` | Create a new attribute value |
+| PUT | `/api/admin/attributes/{attributeId}/values/{valueId}` | Update an attribute value |
+| DELETE | `/api/admin/attributes/{attributeId}/values/{valueId}` | Delete an attribute value |
 
 ## Request Parameters
 
