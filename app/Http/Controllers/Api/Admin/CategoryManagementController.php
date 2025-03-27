@@ -26,12 +26,7 @@ class CategoryManagementController extends Controller
 
     public function index(Request $request)
     {
-        if (!$this->isAdmin($request)) {
-            return response()->json([
-                'message' => 'Unauthorized. Only admins can access this area.'
-            ], Response::HTTP_FORBIDDEN);
-        }
-
+       
         try {
             $categories = $this->categoryService->getAllCategories();
             return CategoryResource::collection($categories);

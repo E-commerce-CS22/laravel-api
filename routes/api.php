@@ -22,6 +22,7 @@ Route::apiResource('products', ProductController::class);
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/customer/register', [CustomerAuthController::class, 'register']);
+Route::get('/categories', [CategoryManagementController::class, 'index']);
 
 // Swagger documentation routes
 Route::get('/docs', function () {
