@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Api\AuthController;
@@ -17,6 +16,7 @@ use App\Http\Controllers\ProductTagController;
 use App\Http\Controllers\Api\Admin\ProductVariantController;
 use App\Http\Controllers\Api\Admin\AttributeController;
 use App\Http\Controllers\Api\Admin\AttributeValueController;
+use App\Http\Controllers\Api\ProductSearchController;
 
 // Public routes
 Route::apiResource('products', ProductController::class);
@@ -24,6 +24,7 @@ Route::apiResource('products', ProductController::class);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/customer/register', [CustomerAuthController::class, 'register']);
 Route::get('/categories', [CategoryManagementController::class, 'index']);
+Route::get('/products/search/{query}', [ProductSearchController::class, 'searchGet']);
 
 // Swagger documentation routes
 Route::get('/docs', function () {
@@ -63,12 +64,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/products/{id}/summary', [ProductController::class, 'getProductSummary']);
         Route::put('/products/{product}', [ProductController::class, 'update']);
         Route::delete('/products/{product}', [ProductController::class, 'destroy']);
-        
+
         // Product Discount Management
         Route::post('/products/{id}/discount', [ProductController::class, 'applyDiscount']);
         Route::put('/products/{id}/discount', [ProductController::class, 'updateDiscount']);
         Route::delete('/products/{id}/discount', [ProductController::class, 'removeDiscount']);
-        
+
         // Product Variant Management
         Route::get('/products/{productId}/variants', [ProductVariantController::class, 'index']);
         Route::get('/products/{productId}/variants/{variantId}', [ProductVariantController::class, 'show']);
@@ -77,14 +78,14 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/products/{productId}/variants/{variantId}', [ProductVariantController::class, 'destroy']);
         Route::patch('/products/{productId}/variants/{variantId}/stock', [ProductVariantController::class, 'updateStock']);
         Route::patch('/products/{productId}/variants/{variantId}/default', [ProductVariantController::class, 'setDefault']);
-        
+
         // Attribute Management
         Route::get('/attributes', [AttributeController::class, 'index']);
         Route::get('/attributes/{id}', [AttributeController::class, 'show']);
         Route::post('/attributes', [AttributeController::class, 'store']);
         Route::put('/attributes/{id}', [AttributeController::class, 'update']);
         Route::delete('/attributes/{id}', [AttributeController::class, 'destroy']);
-        
+
         // Attribute Value Management
         Route::get('/attributes/{attributeId}/values', [AttributeValueController::class, 'index']);
         Route::get('/attributes/{attributeId}/values/{valueId}', [AttributeValueController::class, 'show']);
