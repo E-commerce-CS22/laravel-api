@@ -66,6 +66,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/products/{product}', [ProductController::class, 'destroy']);
 
         // Product Discount Management
+        Route::get('/products/{id}/discount', [ProductController::class, 'getDiscount']);
         Route::post('/products/{id}/discount', [ProductController::class, 'applyDiscount']);
         Route::put('/products/{id}/discount', [ProductController::class, 'updateDiscount']);
         Route::delete('/products/{id}/discount', [ProductController::class, 'removeDiscount']);
