@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\Admin\AdminAuthController;
 use App\Http\Controllers\Api\Customer\CustomerAuthController;
+use App\Http\Controllers\Api\Customer\ProfileController;
 use App\Http\Controllers\Api\Admin\UserManagementController;
 use App\Http\Controllers\Api\Admin\CategoryManagementController;
 use App\Http\Controllers\Api\Admin\TagController;
@@ -59,7 +60,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/products', [ProductController::class, 'index']);
         Route::post('/products', [ProductController::class, 'store']);
         Route::get('/products/{product}', [ProductController::class, 'show']);
-        Route::get('/products/{id}/summary', [\App\Http\Controllers\Api\Admin\ProductController::class, 'getProductSummary']);
+        Route::get('/products/{id}/summary', [ProductController::class, 'getProductSummary']);
         Route::put('/products/{product}', [ProductController::class, 'update']);
         Route::delete('/products/{product}', [ProductController::class, 'destroy']);
         
@@ -69,13 +70,13 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/products/{id}/discount', [ProductController::class, 'removeDiscount']);
         
         // Product Variant Management
-        Route::get('/products/{productId}/variants', [\App\Http\Controllers\Api\Admin\ProductVariantController::class, 'index']);
-        Route::get('/products/{productId}/variants/{variantId}', [\App\Http\Controllers\Api\Admin\ProductVariantController::class, 'show']);
-        Route::post('/products/{productId}/variants', [\App\Http\Controllers\Api\Admin\ProductVariantController::class, 'store']);
-        Route::put('/products/{productId}/variants/{variantId}', [\App\Http\Controllers\Api\Admin\ProductVariantController::class, 'update']);
-        Route::delete('/products/{productId}/variants/{variantId}', [\App\Http\Controllers\Api\Admin\ProductVariantController::class, 'destroy']);
-        Route::patch('/products/{productId}/variants/{variantId}/stock', [\App\Http\Controllers\Api\Admin\ProductVariantController::class, 'updateStock']);
-        Route::patch('/products/{productId}/variants/{variantId}/default', [\App\Http\Controllers\Api\Admin\ProductVariantController::class, 'setDefault']);
+        Route::get('/products/{productId}/variants', [ProductVariantController::class, 'index']);
+        Route::get('/products/{productId}/variants/{variantId}', [ProductVariantController::class, 'show']);
+        Route::post('/products/{productId}/variants', [ProductVariantController::class, 'store']);
+        Route::put('/products/{productId}/variants/{variantId}', [ProductVariantController::class, 'update']);
+        Route::delete('/products/{productId}/variants/{variantId}', [ProductVariantController::class, 'destroy']);
+        Route::patch('/products/{productId}/variants/{variantId}/stock', [ProductVariantController::class, 'updateStock']);
+        Route::patch('/products/{productId}/variants/{variantId}/default', [ProductVariantController::class, 'setDefault']);
         
         // Attribute Management
         Route::get('/attributes', [AttributeController::class, 'index']);
@@ -99,12 +100,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/logout', [CustomerAuthController::class, 'logout']);
 
         // Customer Product Management
-        Route::get('/products', [App\Http\Controllers\Api\Customer\ProductController::class, 'index']);
-        Route::get('/products/{product}', [App\Http\Controllers\Api\Customer\ProductController::class, 'show']);
+        Route::get('/products', [ProductController::class, 'index']);
+        Route::get('/products/{product}', [ProductController::class, 'show']);
 
         // Customer Profile Management
-        Route::get('/profile', [App\Http\Controllers\Api\Customer\ProfileController::class, 'show']);
-        Route::put('/profile', [App\Http\Controllers\Api\Customer\ProfileController::class, 'update']);
+        Route::get('/profile', [ProfileController::class, 'show']);
+        Route::put('/profile', [ProfileController::class, 'update']);
     });
 });
 
