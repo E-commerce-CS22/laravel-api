@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -21,7 +20,7 @@ return new class extends Migration
             $table->integer('sort_order')->default(0);
             $table->enum('image_type', ['main', 'thumbnail', 'gallery', 'lifestyle'])->default('gallery');
             $table->timestamps();
-            
+
             // An image can belong to either a product or a variant, but not both
             $table->index(['product_id', 'product_variant_id']);
         });

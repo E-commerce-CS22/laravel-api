@@ -13,7 +13,24 @@ class ProductRepository
 
     public function create($data)
     {
-        return Product::create($data);
+        // Filter out fields that don't exist in the database schema
+        $filteredData = collect($data)->only([
+            'name',
+            'description',
+            'price',
+            'parent_id',
+            'is_parent',
+            'discount_type',
+            'discount_value',
+            'status',
+            'discount_start_date',
+            'discount_end_date',
+            'images',
+            'attributes',
+            'is_default',
+        ])->toArray();
+        
+        return Product::create($filteredData);
     }
 
     public function findById($id)
