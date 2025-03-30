@@ -105,7 +105,7 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 // Protected Customer routes
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('customer')->group(function () {
         Route::get('/logout', [CustomerAuthController::class, 'logout']);
 
@@ -116,6 +116,7 @@ Route::middleware('auth:sanctum')->group(function () {
         // Customer Profile Management
         Route::get('/profile', [ProfileController::class, 'show']);
         Route::put('/profile', [ProfileController::class, 'update']);
+        Route::patch('/profile/password', [ProfileController::class, 'changePassword']);
     });
 });
 
