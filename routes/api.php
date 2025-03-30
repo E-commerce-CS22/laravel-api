@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\Admin\ProductVariantController;
 use App\Http\Controllers\Api\Admin\AttributeController;
 use App\Http\Controllers\Api\Admin\AttributeValueController;
 use App\Http\Controllers\Api\ProductSearchController;
+use App\Http\Controllers\Api\Admin\ProductImageController;
 
 // Public routes
 Route::apiResource('products', ProductController::class);
@@ -24,6 +25,8 @@ Route::apiResource('products', ProductController::class);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/customer/register', [CustomerAuthController::class, 'register']);
 Route::get('/categories', [CategoryManagementController::class, 'index']);
+Route::get('/products', [ProductController::class, 'index']);
+Route::get('/products/{product}', [ProductController::class, 'show']);
 Route::get('/products/search/{query}', [ProductSearchController::class, 'searchGet']);
 
 // Swagger documentation routes
@@ -79,6 +82,11 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/products/{productId}/variants/{variantId}', [ProductVariantController::class, 'destroy']);
         Route::patch('/products/{productId}/variants/{variantId}/stock', [ProductVariantController::class, 'updateStock']);
         Route::patch('/products/{productId}/variants/{variantId}/default', [ProductVariantController::class, 'setDefault']);
+
+        // Product Image Management
+        Route::post('/products/{id}/images', [ProductImageController::class, 'uploadProductImages']);
+        Route::post('/products/{productId}/variants/{variantId}/images', [ProductImageController::class, 'uploadVariantImages']);
+        Route::delete('/products/{productId}/images/{imageId}', [ProductImageController::class, 'deleteImage']);
 
         // Attribute Management
         Route::get('/attributes', [AttributeController::class, 'index']);
