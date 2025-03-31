@@ -6,6 +6,8 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\Admin\AdminAuthController;
 use App\Http\Controllers\Api\Customer\CustomerAuthController;
 use App\Http\Controllers\Api\Customer\ProfileController;
+use App\Http\Controllers\Api\Customer\OrderController as CustomerOrderController;
+use App\Http\Controllers\Api\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Api\Admin\UserManagementController;
 use App\Http\Controllers\Api\Admin\CategoryManagementController;
 use App\Http\Controllers\Api\Admin\TagController;
@@ -101,6 +103,14 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/attributes/{attributeId}/values', [AttributeValueController::class, 'store']);
         Route::put('/attributes/{attributeId}/values/{valueId}', [AttributeValueController::class, 'update']);
         Route::delete('/attributes/{attributeId}/values/{valueId}', [AttributeValueController::class, 'destroy']);
+        
+        // Order Management
+        Route::get('/orders', [AdminOrderController::class, 'index']);
+        Route::get('/orders/{id}', [AdminOrderController::class, 'show']);
+        Route::patch('/orders/{id}/status', [AdminOrderController::class, 'updateStatus']);
+        Route::patch('/orders/{id}/payment-status', [AdminOrderController::class, 'updatePaymentStatus']);
+        Route::patch('/orders/{id}/tracking', [AdminOrderController::class, 'updateTracking']);
+        Route::get('/orders-statistics', [AdminOrderController::class, 'statistics']);
     });
 });
 
@@ -117,6 +127,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/profile', [ProfileController::class, 'show']);
         Route::put('/profile', [ProfileController::class, 'update']);
         Route::patch('/profile/password', [ProfileController::class, 'changePassword']);
+        
+        // Customer Order Management
+        Route::get('/orders', [CustomerOrderController::class, 'index']);
+        Route::post('/orders', [CustomerOrderController::class, 'store']);
+        Route::get('/orders/{id}', [CustomerOrderController::class, 'show']);
+        Route::patch('/orders/{id}/cancel', [CustomerOrderController::class, 'cancel']);
     });
 });
 
