@@ -16,19 +16,16 @@ class OrderItemResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'order_id' => $this->order_id,
             'product_id' => $this->product_id,
-            'product' => new ProductResource($this->whenLoaded('product')),
+            'product' => new SimplifiedProductResource($this->whenLoaded('product')),
             'product_variant_id' => $this->product_variant_id,
             'product_variant' => $this->when($this->product_variant_id, function () {
-                return new ProductVariantResource($this->productVariant);
+                return new SimplifiedProductVariantResource($this->productVariant);
             }),
             'quantity' => $this->quantity,
             'unit_price' => $this->unit_price,
             'subtotal' => $this->subtotal,
             'discount_amount' => $this->discount_amount,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
         ];
     }
 }
