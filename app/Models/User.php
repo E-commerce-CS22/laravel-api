@@ -25,6 +25,14 @@ class User extends Authenticatable
         'password',
         'status',
         'profile',
+        'role',
+        'first_name',
+        'last_name',
+        'address',
+        'city',
+        'country',
+        'cart_id',
+        'wishlist_id',
     ];
 
     /**
@@ -50,39 +58,47 @@ class User extends Authenticatable
         ];
     }
 
-    public function customer()
+    /**
+     * Check if user is an admin
+     *
+     * @return bool
+     */
+    public function isAdmin()
     {
-        return $this->hasOne(Customer::class);
-    }
-
-    public function admin()
-    {
-        return $this->hasOne(Admin::class);
-    }
-
-    public function orders()
-    {
-        return $this->hasMany(Order::class);
+        return $this->role === 'admin';
     }
 
     /**
-     * Get user type (admin or customer)
+     * Check if user is a customer
      *
-     * @return string
+     * @return bool
      */
-    public function getUserType()
+    public function isCustomer()
     {
-        try {
-            if ($this->admin()->exists()) {
-                return 'admin';
-            }
-            if ($this->customer()->exists()) {
-                return 'customer';
-            }
-            return 'unknown';
-        } catch (\Exception $e) {
-            \Log::error('Error in User@getUserType: ' . $e->getMessage());
-            return 'unknown';
-        }
+        return $this->role === 'customer';
+    }
+
+    /**
+     * Get user's cart
+     */
+    public function cart()
+    {
+        return $this->belongsTo(Cart::class, 'cart_id');
+    }
+
+    /**
+     * Get user's wishlist
+     */
+    public function wishList()
+    {
+        return $this->belongsTo(WishList::class, 'wishlist_id');
+    }
+
+    /**
+     * Get user's orders
+     */
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
 }
