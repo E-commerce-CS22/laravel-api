@@ -60,6 +60,11 @@ class User extends Authenticatable
         return $this->hasOne(Admin::class);
     }
 
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
     /**
      * Get user type (admin or customer)
      *
