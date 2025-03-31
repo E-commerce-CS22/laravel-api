@@ -11,12 +11,21 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('username');
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
             $table->string('email')->unique();
+            $table->string('username');
+            $table->string('phone')->nullable();
             $table->string('profile')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->enum('role', ['admin', 'customer'])->default('customer');
+            $table->string('address')->nullable();
+            $table->string('city')->nullable();
+            $table->string('country')->nullable()->default('اليمن');
+            $table->unsignedBigInteger('cart_id')->nullable();
+            $table->unsignedBigInteger('wishlist_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
