@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use App\Models\Admin;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -46,16 +45,20 @@ class AdminSeeder extends Seeder
 
 
         foreach ($adminData as $data) {
-            $user = User::create([
+            // Extract first and last name from full name
+            $nameParts = explode(' ', $data['name']);
+            $firstName = $nameParts[0];
+            $lastName = count($nameParts) > 1 ? implode(' ', array_slice($nameParts, 1)) : '';
+            
+            User::create([
                 'email' => $data['email'],
                 'username' => $data['username'],
                 'password' => Hash::make('password123'),
                 'status' => 'active',
-            ]);
-
-            Admin::create([
-                'user_id' => $user->id,
-                'name' => $data['name'],
+                'role' => 'admin',
+                'first_name' => $firstName,
+                'last_name' => $lastName,
+                'phone' => $data['phone'],
             ]);
         }
     }
