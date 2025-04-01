@@ -3,8 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\User;
-use App\Models\Admin;
-use App\Models\Customer;
 
 class UserRepository
 {
@@ -15,9 +13,7 @@ class UserRepository
      */
     public function getAllUsers()
     {
-        return User::with(['customer', 'admin'])
-            ->latest()
-            ->get();
+        return User::latest()->get();
     }
 
     /**
