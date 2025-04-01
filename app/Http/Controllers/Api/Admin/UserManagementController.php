@@ -27,7 +27,7 @@ class UserManagementController extends Controller
      */
     private function isAdmin(Request $request)
     {
-        return $request->user() && $request->user()->admin()->exists();
+        return $request->user() && $request->user()->isAdmin();
     }
 
     /**

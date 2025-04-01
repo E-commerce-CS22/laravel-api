@@ -41,14 +41,14 @@ class AuthController extends Controller
             ], Response::HTTP_FORBIDDEN);
         }
 
-        // Determine user role and create appropriate token
-        if ($user->customer) {
+        // Create token based on user role
+        if ($user->isCustomer()) {
             $token = $user->createToken('customer-token', ['customer']);
-        } elseif ($user->admin) {
+        } elseif ($user->isAdmin()) {
             $token = $user->createToken('admin-token', ['admin']);
         } else {
             return response()->json([
-                'message' => 'Unauthorized. Only customers and admins can access this area.'
+                'message' => 'Unauthorized. Invalid user role.'
             ], Response::HTTP_FORBIDDEN);
         }
 

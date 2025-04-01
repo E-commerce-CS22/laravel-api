@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Customer;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Resources\CustomerResource;
+use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,37 +15,40 @@ class ProfileController extends Controller
 {
     public function show()
     {
-        $customer = Auth::user();
-        return new CustomerResource($customer);
+        $user = Auth::user();
+        return new UserResource($user);
     }
 
     public function update(Request $request)
     {
-        $customer = Auth::user();
-        $userData = $request->only(['username', 'email']);
-        $customerData = $request->only([
-            'first_name', 'last_name', 'phone', 
-            'address', 'city', 'postal_code', 'country'
+        $user = Auth::user();
+        
+        // Ensure user is a customer
+        if (!$user->isCustomer()) {
+            return response()->json([
+                'message' => 'Only customers can update their profile'
+            ], Response::HTTP_FORBIDDEN);
+        }
+        
+        $userData = $request->only([
+            'username', 'email', 'first_name', 'last_name', 'phone', 
+            'address', 'city', 'country'
         ]);
 
         if ($request->hasFile('profile_image')) {
             $path = $request->file('profile_image')->store('profile_images', 'public');
-            $userData['profile_image'] = $path;
+            $userData['profile'] = $path;
 
             // Delete old profile image if exists
-            if ($customer->profile_image) {
-                Storage::disk('public')->delete($customer->profile_image);
+            if ($user->profile) {
+                Storage::disk('public')->delete($user->profile);
             }
         }
 
-        $customer->fill($userData);
-        $customer->save();
+        $user->fill($userData);
+        $user->save();
 
-        // Update customer-specific data
-        $customer->customer->fill($customerData);
-        $customer->customer->save();
-
-        return new CustomerResource($customer);
+        return new UserResource($user);
     }
     
     /**
@@ -66,6 +69,13 @@ class ProfileController extends Controller
         ]);
 
         $user = Auth::user();
+        
+        // Ensure user is a customer
+        if (!$user->isCustomer()) {
+            return response()->json([
+                'message' => 'Only customers can change their password through this endpoint'
+            ], Response::HTTP_FORBIDDEN);
+        }
 
         // Check if current password matches
         if (!Hash::check($request->current_password, $user->password)) {

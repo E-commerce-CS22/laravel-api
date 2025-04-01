@@ -17,7 +17,7 @@ class AdminAuthentication
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!$request->user() || !$request->user()->admin) {
+        if (!$request->user() || !$request->user()->isAdmin()) {
             return response()->json([
                 'message' => 'Unauthorized. Only admins can access this area.'
             ], Response::HTTP_FORBIDDEN);

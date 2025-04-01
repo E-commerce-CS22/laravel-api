@@ -23,6 +23,15 @@ class CustomerAuthController extends Controller
      */
     public function logout(Request $request)
     {
+        $user = $request->user();
+        
+        // Ensure user is a customer
+        if (!$user->isCustomer()) {
+            return response()->json([
+                'message' => 'Unauthorized. Only customers can access this endpoint.'
+            ], Response::HTTP_FORBIDDEN);
+        }
+
         $request->user()->currentAccessToken()->delete();
 
         return response()->json([
@@ -47,18 +56,8 @@ class CustomerAuthController extends Controller
             'phone' => 'required|string',
             'address' => 'required|string',
             'city' => 'required|string',
-            'postal_code' => 'nullable|string',
             'country' => 'nullable|string',
             'profile' => 'nullable|string',
-        ]);
-
-        // Create user
-        $user = User::create([
-            'email' => $request->email,
-            'username' => $request->username,
-            'password' => Hash::make($request->password),
-            'profile' => $request->profile, // Save profile if provided
-            'status' => 'active', // New customers start as inactive
         ]);
 
         // Ensure all required fields are provided
@@ -68,32 +67,36 @@ class CustomerAuthController extends Controller
             ], Response::HTTP_BAD_REQUEST);
         }
 
-        $customer = $user->customer()->create([
+        // Create cart and wishlist
+        $cartController = new CartController(app()->make(CartService::class));
+        $cart = $cartController->create();
+        
+        $wishListController = new WishListController(app()->make(WishListService::class));
+        $wishList = $wishListController->create();
+
+        // Create user with customer role
+        $user = User::create([
+            'email' => $request->email,
+            'username' => $request->username,
+            'password' => Hash::make($request->password),
+            'profile' => $request->profile, // Save profile if provided
+            'status' => 'active', // New customers start as active
+            'role' => 'customer',
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'phone' => $request->phone,
             'address' => $request->address,
             'city' => $request->city,
-            'postal_code' => $request->postal_code,
             'country' => $request->country ?? 'اليمن', // Default to Yemen if not provided
+            'cart_id' => $cart->id,
+            'wishlist_id' => $wishList->id,
         ]);
-
-        $cartController = new CartController(app()->make(CartService::class));
-        $cart = $cartController->create();
-        $customer->cart_id = $cart->id;
-
-        $wishListController = new WishListController(app()->make(WishListService::class));
-        $wishList = $wishListController->create();
-        $customer->wishlist_id = $wishList->id;
-        $wishList->save();
-
-        $customer->save();
 
         // Create token with customer ability
         $token = $user->createToken('customer-token', ['customer']);
 
         return response()->json([
-            'message' => 'Registration successful. Your account is pending activation.',
+            'message' => 'Registration successful.',
             'user' => new UserResource($user),
             'token' => $token->plainTextToken
         ], Response::HTTP_CREATED);
