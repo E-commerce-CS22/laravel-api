@@ -20,6 +20,7 @@ use App\Http\Controllers\Api\Admin\AttributeController;
 use App\Http\Controllers\Api\Admin\AttributeValueController;
 use App\Http\Controllers\Api\ProductSearchController;
 use App\Http\Controllers\Api\Admin\ProductImageController;
+use App\Http\Controllers\Api\CategoryProductController;
 
 // Public routes
 Route::apiResource('products', ProductController::class);
@@ -30,6 +31,7 @@ Route::get('/categories', [CategoryManagementController::class, 'index']);
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{product}', [ProductController::class, 'show']);
 Route::get('/products/search/{query}', [ProductSearchController::class, 'searchGet']);
+Route::get('/categories/{categoryId}/products', [CategoryProductController::class, 'getProductsByCategory']);
 
 // Swagger documentation routes
 Route::get('/docs', function () {
