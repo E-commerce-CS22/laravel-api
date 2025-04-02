@@ -24,7 +24,7 @@ class CartController extends Controller
 
     public function addProduct(Request $request)
     {
-        $customer = Auth::user()->customer;
+        $customer = Auth::user();
         if (!$customer || !$customer->cart) {
             return response()->json(['message' => 'Cart not found for the customer.'], 404);
         }
@@ -36,7 +36,7 @@ class CartController extends Controller
 
     public function deleteProduct($productId)
     {
-        $customer = Auth::user()->customer;
+        $customer = Auth::user();
         if (!$customer || !$customer->cart) {
             return response()->json(['message' => 'Cart not found for the customer.'], 404);
         }
@@ -58,7 +58,7 @@ class CartController extends Controller
 
     public function updateProductQuantity(Request $request, $productId)
     {
-        $customer = Auth::user()->customer;
+        $customer = Auth::user();
         if (!$customer || !$customer->cart) {
             return response()->json(['message' => 'Cart not found for the customer.'], 404);
         }
