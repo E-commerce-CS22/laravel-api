@@ -23,7 +23,7 @@ class WishListController extends Controller
 
     public function addProduct($productId)
     {
-        $customer = Auth::user()->customer;
+        $customer = Auth::user();
         if (!$customer || !$customer->wishList) {
             return response()->json(['message' => 'Wishlist not found for the customer.'], 404);
         }
@@ -34,7 +34,7 @@ class WishListController extends Controller
 
     public function deleteProduct($productId)
     {
-        $customer = Auth::user()->customer;
+        $customer = Auth::user();
         if (!$customer || !$customer->wishList) {
             return response()->json(['message' => 'Wishlist not found for the customer.'], 404);
         }
@@ -45,7 +45,7 @@ class WishListController extends Controller
 
     public function showProducts()
     {
-        $customer = Auth::user()->customer;
+        $customer = Auth::user();
         if (!$customer || !$customer->wishList) {
             return response()->json(['message' => 'Wishlist not found for the customer.'], 404);
         }
