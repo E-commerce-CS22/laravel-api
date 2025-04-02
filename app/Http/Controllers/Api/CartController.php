@@ -47,7 +47,7 @@ class CartController extends Controller
 
     public function showProducts()
     {
-        $customer = Auth::user()->customer;
+        $customer = Auth::user();
         if (!$customer || !$customer->cart) {
             return response()->json(['message' => 'Cart not found for the customer.'], 404);
         }
