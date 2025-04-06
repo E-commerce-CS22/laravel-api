@@ -26,10 +26,6 @@ class OrderController extends Controller
             $query->where('status', $request->status);
         }
         
-        // Filter by payment status if provided
-        if ($request->has('payment_status') && !empty($request->payment_status)) {
-            $query->where('payment_status', $request->payment_status);
-        }
         
         // Filter by date range
         if ($request->has('from_date') && !empty($request->from_date)) {
@@ -118,12 +114,11 @@ class OrderController extends Controller
      */
     public function updatePaymentStatus(Request $request, string $id)
     {
-        $request->validate([
-            'payment_status' => 'required|string|in:unpaid,paid,failed,refunded',
-        ]);
+        // $request->validate([
+        //     'payment_status' => 'required|string|in:unpaid,paid,failed,refunded',
+        // ]);
         
         $order = Order::findOrFail($id);
-        $order->payment_status = $request->payment_status;
         $order->save();
         
         return new OrderResource($order->load('items.product', 'items.productVariant', 'user'));

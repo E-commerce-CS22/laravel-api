@@ -50,9 +50,7 @@ class OrderController extends Controller
             $order = Order::create([
                 'user_id' => $user->id,
                 'status' => 'pending',
-                'payment_status' => 'unpaid',
                 'shipping_address' => $request->shipping_address,
-                'billing_address' => $request->billing_address ?: $request->shipping_address,
                 'payment_method' => $request->payment_method,
                 'shipping_method' => $request->shipping_method,
                 'shipping_cost' => 0, // You can calculate this based on shipping method
