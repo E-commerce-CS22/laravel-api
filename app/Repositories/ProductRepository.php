@@ -6,9 +6,15 @@ use App\Models\Product;
 
 class ProductRepository
 {
-    public function getAll()
+    public function getAll($perPage = null, $page = null)
     {
-        return Product::all();
+        $query = Product::query();
+        
+        if ($perPage !== null) {
+            return $query->paginate($perPage, ['*'], 'page', $page);
+        }
+        
+        return $query->get();
     }
 
     public function create($data)
@@ -38,12 +44,16 @@ class ProductRepository
         return Product::findOrFail($id);
     }
     
-    public function findWhere(array $criteria)
+    public function findWhere(array $criteria, $perPage = null, $page = null)
     {
         $query = Product::query();
         
         foreach ($criteria as $key => $value) {
             $query->where($key, $value);
+        }
+        
+        if ($perPage !== null) {
+            return $query->paginate($perPage, ['*'], 'page', $page);
         }
         
         return $query->get();

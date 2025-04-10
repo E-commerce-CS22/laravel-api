@@ -16,9 +16,12 @@ class ProductController extends Controller
         $this->productService = $productService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $products = $this->productService->getAllProducts();
+        $perPage = $request->input('per_page', 15); // Default to 15 items per page
+        $page = $request->input('page', 1); // Default to first page
+        
+        $products = $this->productService->getAllProducts($perPage, $page);
         return ProductResource::collection($products);
     }
 

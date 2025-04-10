@@ -9,9 +9,12 @@ use Carbon\Carbon;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::with(['tags:name,slug'])->get();
+        $perPage = $request->input('per_page', 15); // Default to 15 items per page
+        $page = $request->input('page', 1); // Default to first page
+        
+        $products = Product::with(['tags:name,slug'])->paginate($perPage, ['*'], 'page', $page);
         return response()->json($products, 200);
     }
 
