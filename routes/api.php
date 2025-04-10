@@ -21,6 +21,7 @@ use App\Http\Controllers\Api\Admin\AttributeValueController;
 use App\Http\Controllers\Api\ProductSearchController;
 use App\Http\Controllers\Api\Admin\ProductImageController;
 use App\Http\Controllers\Api\CategoryProductController;
+use App\Http\Controllers\Admin\SlideController;
 
 // Public routes
 Route::apiResource('products', ProductController::class);
@@ -32,6 +33,7 @@ Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{product}', [ProductController::class, 'show']);
 Route::get('/products/search/{query}', [ProductSearchController::class, 'searchGet']);
 Route::get('/categories/{categoryId}/products', [CategoryProductController::class, 'getProductsByCategory']);
+Route::get('/slides', [SlideController::class, 'index']);
 
 // Swagger documentation routes
 Route::get('/docs', function () {
@@ -106,6 +108,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/attributes/{attributeId}/values/{valueId}', [AttributeValueController::class, 'update']);
         Route::delete('/attributes/{attributeId}/values/{valueId}', [AttributeValueController::class, 'destroy']);
         
+        // Slide Management
+        Route::get('/slides', [SlideController::class, 'index']);
+        Route::post('/slides', [SlideController::class, 'store']);
+        Route::put('/slides/{slide}', [SlideController::class, 'update']);
+        Route::delete('/slides/{slide}', [SlideController::class, 'destroy']);
+
         // Order Management
         Route::get('/orders', [AdminOrderController::class, 'index']);
         Route::get('/orders/{id}', [AdminOrderController::class, 'show']);
