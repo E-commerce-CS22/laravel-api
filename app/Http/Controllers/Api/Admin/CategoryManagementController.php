@@ -31,8 +31,6 @@ class CategoryManagementController extends Controller
             $categories = $this->categoryService->getAllCategories();
             return CategoryResource::collection($categories);
         } catch (\Exception $e) {
-            \Log::error('Error in CategoryManagementController@index: ' . $e->getMessage());
-            \Log::error($e->getTraceAsString());
 
             return response()->json([
                 'message' => 'An error occurred while fetching categories',
@@ -452,8 +450,11 @@ class CategoryManagementController extends Controller
                                         // Clean up
                                         @unlink($tempFile);
                                     } catch (\Exception $e) {
-                                        // Log the error but continue processing
-                                        \Log::error('Error processing image: ' . $e->getMessage());
+
+                                        return response()->json([
+                                            'message' => 'An error occurred while processing the image',
+                                            'error' => $e->getMessage()
+                                        ], Response::HTTP_INTERNAL_SERVER_ERROR);
                                     }
                                 }
                             }
@@ -583,7 +584,6 @@ class CategoryManagementController extends Controller
                 'message' => 'Category deleted successfully'
             ], Response::HTTP_OK);
         } catch (\Exception $e) {
-            \Log::error('Error in CategoryManagementController@destroy: ' . $e->getMessage());
 
             return response()->json([
                 'message' => 'An error occurred while deleting category',
