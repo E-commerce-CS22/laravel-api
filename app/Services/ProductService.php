@@ -25,14 +25,14 @@ class ProductService
         $this->productImageRepository = $productImageRepository ?? app(ProductImageRepository::class);
     }
 
-    public function getAllProducts()
+    public function getAllProducts($perPage = null, $page = null)
     {
-        return $this->productRepository->getAll();
+        return $this->productRepository->getAll($perPage, $page);
     }
 
-    public function getParentProducts()
+    public function getParentProducts($perPage = null, $page = null)
     {
-        return $this->productRepository->findWhere(['is_parent' => true]);
+        return $this->productRepository->findWhere(['is_parent' => true], $perPage, $page);
     }
 
     public function createProduct($data)
