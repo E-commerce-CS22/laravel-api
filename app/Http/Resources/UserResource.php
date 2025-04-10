@@ -22,6 +22,7 @@ class UserResource extends JsonResource
             'role' => $this->role,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'profile' => $this->profile,
         ];
 
         // Add customer-specific data if the user is a customer

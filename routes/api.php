@@ -137,6 +137,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/profile', [ProfileController::class, 'show']);
         Route::put('/profile', [ProfileController::class, 'update']);
         Route::patch('/profile/password', [ProfileController::class, 'changePassword']);
+        Route::patch('/profile/image', [ProfileController::class, 'updateProfileImage']);
         
         // Customer Order Management
         Route::get('/orders', [CustomerOrderController::class, 'index']);
