@@ -99,7 +99,6 @@ class ProductVariantController extends Controller
             'images.*.alt_text' => 'sometimes|string|max:255',
             'images.*.is_primary' => 'sometimes|boolean',
             'images.*.sort_order' => 'sometimes|integer',
-            'images.*.image_type' => 'sometimes|in:main,thumbnail,gallery,lifestyle',
         ]);
 
         if ($validator->fails()) {
@@ -170,7 +169,6 @@ class ProductVariantController extends Controller
             'images.*.alt_text' => 'sometimes|string|max:255',
             'images.*.is_primary' => 'sometimes|boolean',
             'images.*.sort_order' => 'sometimes|integer',
-            'images.*.image_type' => 'sometimes|in:main,thumbnail,gallery,lifestyle',
         ]);
 
         if ($validator->fails()) {

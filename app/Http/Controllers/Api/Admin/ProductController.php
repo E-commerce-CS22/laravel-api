@@ -51,12 +51,11 @@ class ProductController extends Controller
             'categories.*' => 'exists:categories,id',
             'tags' => 'sometimes|array',
             'tags.*' => 'exists:tags,id',
-            'images' => 'sometimes|array',
+            'images' => 'sometimes',
             'images.*.file' => 'sometimes|file|image|max:5120', // 5MB max
             'images.*.alt_text' => 'sometimes|string|max:255',
             'images.*.is_primary' => 'sometimes|boolean',
             'images.*.sort_order' => 'sometimes|integer',
-            'images.*.image_type' => 'sometimes|in:main,thumbnail,gallery,lifestyle',
             'variants' => 'sometimes|array',
             'variants.*.sku' => 'required_with:variants|string|max:100|unique:product_variants,sku',
             'variants.*.price' => 'sometimes|numeric|min:0',
@@ -72,7 +71,6 @@ class ProductController extends Controller
             'variants.*.images.*.alt_text' => 'sometimes|string|max:255',
             'variants.*.images.*.is_primary' => 'sometimes|boolean',
             'variants.*.images.*.sort_order' => 'sometimes|integer',
-            'variants.*.images.*.image_type' => 'sometimes|in:main,thumbnail,gallery,lifestyle',
         ]);
 
         if ($validator->fails()) {
@@ -151,13 +149,12 @@ class ProductController extends Controller
             'categories.*' => 'exists:categories,id',
             'tags' => 'sometimes|array',
             'tags.*' => 'exists:tags,id',
-            'images' => 'sometimes|array',
+            'images' => 'sometimes',
             'images.*.id' => 'sometimes|exists:product_images,id',
             'images.*.file' => 'sometimes|file|image|max:5120', // 5MB max
             'images.*.alt_text' => 'sometimes|string|max:255',
             'images.*.is_primary' => 'sometimes|boolean',
             'images.*.sort_order' => 'sometimes|integer',
-            'images.*.image_type' => 'sometimes|in:main,thumbnail,gallery,lifestyle',
             'variants' => 'sometimes|array',
             'variants.*.id' => 'sometimes|exists:product_variants,id',
             'variants.*.sku' => 'sometimes|string|max:100',
@@ -175,7 +172,6 @@ class ProductController extends Controller
             'variants.*.images.*.alt_text' => 'sometimes|string|max:255',
             'variants.*.images.*.is_primary' => 'sometimes|boolean',
             'variants.*.images.*.sort_order' => 'sometimes|integer',
-            'variants.*.images.*.image_type' => 'sometimes|in:main,thumbnail,gallery,lifestyle',
         ]);
 
         if ($validator->fails()) {

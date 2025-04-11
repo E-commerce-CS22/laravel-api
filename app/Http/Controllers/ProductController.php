@@ -15,7 +15,12 @@ class ProductController extends Controller
         $perPage = $request->input('per_page', 15);
         $page = $request->input('page', 1); // Default to first page
         
-        $products = Product::with(['tags:name,slug'])->paginate($perPage, ['*'], 'page', $page);
+        $products = Product::with([
+            'tags:id,name,slug',
+            'variants.attributes',
+            'variants.attributeValues.attribute'
+        ])->paginate($perPage, ['*'], 'page', $page);
+        
         return ProductResource::collection($products);
     }
 

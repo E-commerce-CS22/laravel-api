@@ -24,12 +24,11 @@ class ProductImageController extends Controller
 
         // Validate request
         $validator = Validator::make($request->all(), [
-            'images' => 'required|array',
+            'images' => 'required',
             'images.*.file' => 'required|file|image|max:5120', // 5MB max
             'images.*.alt_text' => 'sometimes|string|max:255',
             'images.*.is_primary' => 'sometimes|boolean',
             'images.*.sort_order' => 'sometimes|integer',
-            'images.*.image_type' => 'sometimes|in:main,thumbnail,gallery,lifestyle',
         ]);
 
         if ($validator->fails()) {
@@ -52,11 +51,10 @@ class ProductImageController extends Controller
                 
                 $imageData = [
                     'product_id' => $product->id,
-                    'image_path' => $path,
+                    'image' => $path,
                     'alt_text' => $image['alt_text'] ?? $product->name,
                     'is_primary' => $image['is_primary'] ?? false,
                     'sort_order' => $image['sort_order'] ?? 0,
-                    'image_type' => $image['image_type'] ?? 'gallery'
                 ];
                 
                 $productImage = ProductImage::create($imageData);
@@ -78,7 +76,7 @@ class ProductImageController extends Controller
     }
 
     /**
-     * Upload images to a product variant
+     * Upload a single image to a product variant
      * 
      * @param Request $request
      * @param int $productId
@@ -97,12 +95,10 @@ class ProductImageController extends Controller
 
         // Validate request
         $validator = Validator::make($request->all(), [
-            'images' => 'required|array',
-            'images.*.file' => 'required|file|image|max:5120', // 5MB max
-            'images.*.alt_text' => 'sometimes|string|max:255',
-            'images.*.is_primary' => 'sometimes|boolean',
-            'images.*.sort_order' => 'sometimes|integer',
-            'images.*.image_type' => 'sometimes|in:main,thumbnail,gallery,lifestyle',
+            'image' => 'required|string',
+            'alt_text' => 'sometimes|string|max:255',
+            'is_primary' => 'sometimes|boolean',
+            'sort_order' => 'sometimes|integer',
         ]);
 
         if ($validator->fails()) {
@@ -126,35 +122,43 @@ class ProductImageController extends Controller
                 ], 400);
             }
             
-            // Process and save images
-            $uploadedImages = [];
+            // Process the image string
+            $imageString = $request->input('image');
             
-            foreach ($request->file('images') as $key => $image) {
-                $path = $image['file']->store('products/' . $product->id . '/variants/' . $variant->id, 'public');
-                
-                $imageData = [
-                    'product_id' => $product->id,
-                    'product_variant_id' => $variant->id,
-                    'image_path' => $path,
-                    'alt_text' => $image['alt_text'] ?? ($variant->variant_title ?? $product->name),
-                    'is_primary' => $image['is_primary'] ?? false,
-                    'sort_order' => $image['sort_order'] ?? 0,
-                    'image_type' => $image['image_type'] ?? 'gallery'
-                ];
-                
-                $productImage = ProductImage::create($imageData);
-                $uploadedImages[] = $productImage;
+            // Generate a unique filename
+            $filename = uniqid() . '.jpg';
+            $directory = 'products/' . $product->id . '/variants/' . $variant->id;
+            $path = $directory . '/' . $filename;
+            
+            // Ensure the directory exists
+            if (!Storage::disk('public')->exists($directory)) {
+                Storage::disk('public')->makeDirectory($directory);
             }
+            
+            // Store the image
+            Storage::disk('public')->put($path, $imageString);
+            
+            // Create image record
+            $imageData = [
+                'product_id' => $product->id,
+                'product_variant_id' => $variant->id,
+                'image' => $path,
+                'alt_text' => $request->input('alt_text') ?? ($variant->variant_title ?? $product->name),
+                'is_primary' => $request->input('is_primary') ?? false,
+                'sort_order' => $request->input('sort_order') ?? 0,
+            ];
+            
+            $productImage = ProductImage::create($imageData);
             
             return response()->json([
                 'success' => true,
-                'message' => count($uploadedImages) . ' images uploaded successfully',
-                'data' => $uploadedImages
+                'message' => 'Image uploaded successfully',
+                'data' => $productImage
             ], 201);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Failed to upload images',
+                'message' => 'Failed to upload image',
                 'error' => $e->getMessage()
             ], 500);
         }
@@ -190,8 +194,8 @@ class ProductImageController extends Controller
             }
             
             // Delete the file from storage
-            if (Storage::exists($image->image_path)) {
-                Storage::delete($image->image_path);
+            if (Storage::exists($image->image)) {
+                Storage::delete($image->image);
             }
             
             // Delete the image record

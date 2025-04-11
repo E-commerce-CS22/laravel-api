@@ -37,11 +37,10 @@ class ProductVariantResource extends JsonResource
                 return $this->images->map(function($image) {
                     return [
                         'id' => $image->id,
-                        'url' => url('storage/' . $image->path),
+                        'url' => url('storage/' . $image->image),
                         'alt_text' => $image->alt_text,
                         'is_primary' => (bool) $image->is_primary,
                         'sort_order' => (int) $image->sort_order,
-                        'image_type' => $image->image_type
                     ];
                 });
             }),

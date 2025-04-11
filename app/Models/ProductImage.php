@@ -12,11 +12,10 @@ class ProductImage extends Model
     protected $fillable = [
         'product_id',
         'product_variant_id',
-        'image_path',
+        'image',
         'alt_text',
         'is_primary',
-        'sort_order',
-        'image_type'
+        'sort_order'
     ];
 
     protected $casts = [

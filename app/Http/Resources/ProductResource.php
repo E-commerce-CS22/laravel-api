@@ -19,7 +19,39 @@ class ProductResource extends JsonResource
             'discount_end_date' => $this->discount_end_date,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'image' => $this->image
+            'image' => $this->image,
+            'tags' => $this->whenLoaded('tags'),
+            'variants' => $this->whenLoaded('variants', function () {
+                return $this->variants->map(function ($variant) {
+                    $attributeData = [];
+                    
+                    // Process attribute values for this variant
+                    foreach ($variant->attributeValues as $attributeValue) {
+                        $attributeData[] = [
+                            'attribute' => [
+                                'id' => $attributeValue->attribute->id,
+                                'name' => $attributeValue->attribute->name,
+                            ],
+                            'value' => [
+                                'id' => $attributeValue->id,
+                                'name' => $attributeValue->name,
+                            ]
+                        ];
+                    }
+                    
+                    return [
+                        'id' => $variant->id,
+                        'sku' => $variant->sku,
+                        'price' => $variant->price,
+                        'extra_price' => $variant->extra_price,
+                        'stock' => $variant->stock,
+                        'is_default' => $variant->is_default,
+                        'variant_title' => $variant->variant_title,
+                        'images' => $variant->images,
+                        'attributes' => $attributeData
+                    ];
+                });
+            })
         ];
     }
 }

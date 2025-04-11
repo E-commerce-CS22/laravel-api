@@ -148,8 +148,8 @@ class ProductService
             // Delete all images
             foreach ($product->images as $image) {
                 // Delete the file from storage
-                if (Storage::exists($image->image_path)) {
-                    Storage::delete($image->image_path);
+                if (Storage::exists($image->image)) {
+                    Storage::delete($image->image);
                 }
                 $this->productImageRepository->delete($image->id);
             }
@@ -342,7 +342,6 @@ class ProductService
                     'alt_text' => $imageData['alt_text'] ?? null,
                     'is_primary' => $imageData['is_primary'] ?? false,
                     'sort_order' => $imageData['sort_order'] ?? 0,
-                    'image_type' => $imageData['image_type'] ?? 'gallery'
                 ]);
             }
             // If a file is provided, create a new image
@@ -356,7 +355,6 @@ class ProductService
                     'alt_text' => $imageData['alt_text'] ?? null,
                     'is_primary' => $imageData['is_primary'] ?? false,
                     'sort_order' => $imageData['sort_order'] ?? 0,
-                    'image_type' => $imageData['image_type'] ?? 'gallery'
                 ]);
                 
                 $existingImageIds[] = $newImage->id;
@@ -399,11 +397,10 @@ class ProductService
                 
                 $imageAttributes = [
                     'product_id' => $product->id,
-                    'image_path' => $path,
+                    'image' => $path,
                     'alt_text' => $imageData['alt_text'] ?? $product->name,
                     'is_primary' => $imageData['is_primary'] ?? false,
                     'sort_order' => $imageData['sort_order'] ?? 0,
-                    'image_type' => $imageData['image_type'] ?? 'gallery'
                 ];
                 
                 $this->productImageRepository->create($imageAttributes);
@@ -416,8 +413,8 @@ class ProductService
             $image = $this->productImageRepository->findById($imageId);
             
             // Delete the file from storage
-            if (Storage::exists($image->image_path)) {
-                Storage::delete($image->image_path);
+            if (Storage::exists($image->image)) {
+                Storage::delete($image->image);
             }
             
             $this->productImageRepository->delete($imageId);
