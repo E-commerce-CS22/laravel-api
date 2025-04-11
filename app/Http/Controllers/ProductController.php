@@ -6,16 +6,17 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use App\Http\Resources\ProductResource;
 
 class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        $perPage = $request->input('per_page', 15); // Default to 15 items per page
+        $perPage = $request->input('per_page', 15);
         $page = $request->input('page', 1); // Default to first page
         
         $products = Product::with(['tags:name,slug'])->paginate($perPage, ['*'], 'page', $page);
-        return response()->json($products, 200);
+        return ProductResource::collection($products);
     }
 
     public function store(Request $request)
