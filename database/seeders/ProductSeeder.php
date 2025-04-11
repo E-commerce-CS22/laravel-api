@@ -18,6 +18,9 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
+        // Clear existing products to avoid duplicate SKUs
+        $this->clearExistingProducts();
+        
         // Create attributes if they don't exist
         $this->createAttributes();
         
@@ -36,6 +39,18 @@ class ProductSeeder extends Seeder
         $this->createSonyWH1000XM5();
         $this->createAirPodsPro();
         $this->createBoseSoundSport();
+    }
+    
+    /**
+     * Clear existing products and related data
+     */
+    private function clearExistingProducts(): void
+    {
+        // Clear related tables first to avoid foreign key constraints
+        DB::table('attribute_product_variant')->delete();
+        DB::table('product_images')->delete();
+        DB::table('product_variants')->delete();
+        DB::table('products')->delete();
     }
     
     private function createAttributes()
@@ -62,10 +77,9 @@ class ProductSeeder extends Seeder
         ProductImage::create([
             'product_id' => $parent->id,
             'product_variant_id' => null,
-            'image_path' => 'samsung-s24-ultra-main.jpg',
+            'image' => 'samsung-s24-ultra-main.jpg',
             'alt_text' => 'سامسونج جالاكسي إس 24 ألترا',
             'is_primary' => true,
-            'image_type' => 'main'
         ]);
 
         // Create variants
@@ -149,10 +163,9 @@ class ProductSeeder extends Seeder
             ProductImage::create([
                 'product_id' => null,
                 'product_variant_id' => $productVariant->id,
-                'image_path' => "samsung-s24-ultra-{$variant['color']}.jpg",
+                'image' => "samsung-s24-ultra-{$variant['color']}.jpg",
                 'alt_text' => $variantTitle,
                 'is_primary' => true,
-                'image_type' => 'main'
             ]);
             
             // Assign attributes to variant
@@ -218,10 +231,9 @@ class ProductSeeder extends Seeder
         ProductImage::create([
             'product_id' => $parent->id,
             'product_variant_id' => null,
-            'image_path' => 'iphone15-pro-main.jpg',
+            'image' => 'iphone15-pro-main.jpg',
             'alt_text' => 'آيفون 15 برو',
             'is_primary' => true,
-            'image_type' => 'main'
         ]);
 
         // Create variants
@@ -330,10 +342,9 @@ class ProductSeeder extends Seeder
             ProductImage::create([
                 'product_id' => null,
                 'product_variant_id' => $productVariant->id,
-                'image_path' => "iphone15-pro-{$variant['color']}.jpg",
+                'image' => "iphone15-pro-{$variant['color']}.jpg",
                 'alt_text' => $variantTitle,
                 'is_primary' => true,
-                'image_type' => 'main'
             ]);
             
             // Assign attributes to variant
@@ -384,10 +395,9 @@ class ProductSeeder extends Seeder
         ProductImage::create([
             'product_id' => $parent->id,
             'product_variant_id' => null,
-            'image_path' => 'google-pixel8-pro-main.jpg',
+            'image' => 'google-pixel8-pro-main.jpg',
             'alt_text' => 'جوجل بيكسل 8 برو',
             'is_primary' => true,
-            'image_type' => 'main'
         ]);
 
         // Create variants
@@ -472,10 +482,9 @@ class ProductSeeder extends Seeder
             ProductImage::create([
                 'product_id' => null,
                 'product_variant_id' => $productVariant->id,
-                'image_path' => "google-pixel8-pro-{$variant['color']}.jpg",
+                'image' => "google-pixel8-pro-{$variant['color']}.jpg",
                 'alt_text' => $variantTitle,
                 'is_primary' => true,
-                'image_type' => 'main'
             ]);
             
             // Assign attributes to variant
@@ -526,10 +535,9 @@ class ProductSeeder extends Seeder
         ProductImage::create([
             'product_id' => $parent->id,
             'product_variant_id' => null,
-            'image_path' => 'xiaomi-redmi-note12-main.jpg',
+            'image' => 'xiaomi-redmi-note12-main.jpg',
             'alt_text' => 'شاومي ريدمي نوت 12',
             'is_primary' => true,
-            'image_type' => 'main'
         ]);
 
         // Create variants
@@ -595,10 +603,9 @@ class ProductSeeder extends Seeder
             ProductImage::create([
                 'product_id' => null,
                 'product_variant_id' => $productVariant->id,
-                'image_path' => "xiaomi-redmi-note12-{$variant['color']}.jpg",
+                'image' => "xiaomi-redmi-note12-{$variant['color']}.jpg",
                 'alt_text' => $variantTitle,
                 'is_primary' => true,
-                'image_type' => 'main'
             ]);
             
             // Assign attributes to variant
@@ -664,10 +671,9 @@ class ProductSeeder extends Seeder
         ProductImage::create([
             'product_id' => $parent->id,
             'product_variant_id' => null,
-            'image_path' => 'macbook-pro-main.jpg',
+            'image' => 'macbook-pro-main.jpg',
             'alt_text' => 'ماك بوك برو',
             'is_primary' => true,
-            'image_type' => 'main'
         ]);
 
         // Create variants
@@ -765,10 +771,9 @@ class ProductSeeder extends Seeder
             ProductImage::create([
                 'product_id' => null,
                 'product_variant_id' => $productVariant->id,
-                'image_path' => "macbook-pro-{$variant['screen_size']}.jpg",
+                'image' => "macbook-pro-{$variant['screen_size']}.jpg",
                 'alt_text' => $variantTitle,
                 'is_primary' => true,
-                'image_type' => 'main'
             ]);
             
             // Assign attributes to variant
@@ -864,10 +869,9 @@ class ProductSeeder extends Seeder
         ProductImage::create([
             'product_id' => $parent->id,
             'product_variant_id' => null,
-            'image_path' => 'dell-xps15-main.jpg',
+            'image' => 'dell-xps15-main.jpg',
             'alt_text' => 'ديل إكس بي إس 15',
             'is_primary' => true,
-            'image_type' => 'main'
         ]);
 
         // Create variants
@@ -948,10 +952,9 @@ class ProductSeeder extends Seeder
             ProductImage::create([
                 'product_id' => null,
                 'product_variant_id' => $productVariant->id,
-                'image_path' => "dell-xps15-{$variant['processor']}.jpg",
+                'image' => "dell-xps15-{$variant['processor']}.jpg",
                 'alt_text' => $variantTitle,
                 'is_primary' => true,
-                'image_type' => 'main'
             ]);
             
             // Assign attributes to variant
@@ -1032,10 +1035,9 @@ class ProductSeeder extends Seeder
         ProductImage::create([
             'product_id' => $parent->id,
             'product_variant_id' => null,
-            'image_path' => 'lenovo-thinkpad-x1-main.jpg',
+            'image' => 'lenovo-thinkpad-x1-main.jpg',
             'alt_text' => 'Lenovo ThinkPad X1 Carbon',
             'is_primary' => true,
-            'image_type' => 'main'
         ]);
 
         // Create variants
@@ -1106,10 +1108,9 @@ class ProductSeeder extends Seeder
             ProductImage::create([
                 'product_id' => null,
                 'product_variant_id' => $productVariant->id,
-                'image_path' => "lenovo-thinkpad-x1-{$variant['color']}.jpg",
+                'image' => "lenovo-thinkpad-x1-{$variant['color']}.jpg",
                 'alt_text' => $variantTitle,
                 'is_primary' => true,
-                'image_type' => 'main'
             ]);
             
             // Assign attributes to variant
@@ -1190,10 +1191,9 @@ class ProductSeeder extends Seeder
         ProductImage::create([
             'product_id' => $parent->id,
             'product_variant_id' => null,
-            'image_path' => 'sony-wh1000xm5-main.jpg',
+            'image' => 'sony-wh1000xm5-main.jpg',
             'alt_text' => 'Sony WH-1000XM5',
             'is_primary' => true,
-            'image_type' => 'main'
         ]);
 
         // Create variants
@@ -1242,10 +1242,9 @@ class ProductSeeder extends Seeder
             ProductImage::create([
                 'product_id' => null,
                 'product_variant_id' => $productVariant->id,
-                'image_path' => "sony-wh1000xm5-{$variant['color']}.jpg",
+                'image' => "sony-wh1000xm5-{$variant['color']}.jpg",
                 'alt_text' => $variantTitle,
                 'is_primary' => true,
-                'image_type' => 'main'
             ]);
             
             // Assign attributes to variant
@@ -1281,30 +1280,32 @@ class ProductSeeder extends Seeder
         ProductImage::create([
             'product_id' => $parent->id,
             'product_variant_id' => null,
-            'image_path' => 'airpods-pro-main.jpg',
+            'image' => 'airpods-pro-main.jpg',
             'alt_text' => 'Apple AirPods Pro',
             'is_primary' => true,
-            'image_type' => 'main'
         ]);
 
-        // Create variants
+        // Create variants - using material attribute instead of case_type
         $variants = [
             [
-                'case_type' => 'USB-C Charging Case',
+                'material' => 'بلاستيك', // Using existing material attribute value
+                'variant_name' => 'USB-C Charging Case',
                 'price' => 249.99,
                 'sku' => 'APP2-USBC',
                 'stock' => 100,
                 'is_default' => true,
             ],
             [
-                'case_type' => 'MagSafe Charging Case',
+                'material' => 'معدن', // Using existing material attribute value
+                'variant_name' => 'MagSafe Charging Case',
                 'price' => 269.99,
                 'sku' => 'APP2-MAGSAFE',
                 'stock' => 85,
                 'is_default' => false,
             ],
             [
-                'case_type' => 'Wireless Charging Case with Engraving',
+                'material' => 'ألومنيوم', // Using existing material attribute value
+                'variant_name' => 'Wireless Charging Case with Engraving',
                 'price' => 289.99,
                 'sku' => 'APP2-WIRELESS-ENG',
                 'stock' => 60,
@@ -1312,12 +1313,12 @@ class ProductSeeder extends Seeder
             ],
         ];
 
-        // Get attribute IDs
-        $caseTypeAttribute = Attribute::where('name', 'نوع العلبة')->first();
+        // Get attribute ID for material (which exists in the seeder)
+        $materialAttribute = Attribute::where('name', 'المواد')->first();
 
         foreach ($variants as $variant) {
             // Create variant title
-            $variantTitle = "Apple AirPods Pro (2nd Generation) - {$variant['case_type']}";
+            $variantTitle = "Apple AirPods Pro (2nd Generation) - {$variant['variant_name']}";
             
             // Create product variant
             $productVariant = ProductVariant::create([
@@ -1329,27 +1330,26 @@ class ProductSeeder extends Seeder
                 'variant_title' => $variantTitle,
             ]);
             
-            // Add variant images
+            // Add variant images - using safe naming convention
+            $imageName = Str::slug($variant['variant_name']);
             ProductImage::create([
                 'product_id' => null,
                 'product_variant_id' => $productVariant->id,
-                'image_path' => "airpods-pro-{$variant['case_type']}.jpg",
+                'image' => "airpods-pro-{$imageName}.jpg",
                 'alt_text' => $variantTitle,
                 'is_primary' => true,
-                'image_type' => 'main'
             ]);
             
-            // Assign attributes to variant
-            // Case Type attribute
-            $caseTypeValue = AttributeValue::where('attribute_id', $caseTypeAttribute->id)
-                ->where('name', $variant['case_type'])
+            // Assign attributes to variant - using material attribute
+            $materialValue = AttributeValue::where('attribute_id', $materialAttribute->id)
+                ->where('name', $variant['material'])
                 ->first();
                 
-            if ($caseTypeValue) {
+            if ($materialValue) {
                 DB::table('attribute_product_variant')->insert([
                     'product_variant_id' => $productVariant->id,
-                    'attribute_id' => $caseTypeAttribute->id,
-                    'attribute_value_id' => $caseTypeValue->id,
+                    'attribute_id' => $materialAttribute->id,
+                    'attribute_value_id' => $materialValue->id,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
@@ -1372,10 +1372,9 @@ class ProductSeeder extends Seeder
         ProductImage::create([
             'product_id' => $parent->id,
             'product_variant_id' => null,
-            'image_path' => 'bose-soundsport-main.jpg',
+            'image' => 'bose-soundsport-main.jpg',
             'alt_text' => 'Bose SoundSport Wireless',
             'is_primary' => true,
-            'image_type' => 'main'
         ]);
 
         // Create variants
@@ -1431,10 +1430,9 @@ class ProductSeeder extends Seeder
             ProductImage::create([
                 'product_id' => null,
                 'product_variant_id' => $productVariant->id,
-                'image_path' => "bose-soundsport-{$variant['color']}.jpg",
+                'image' => "bose-soundsport-{$variant['color']}.jpg",
                 'alt_text' => $variantTitle,
                 'is_primary' => true,
-                'image_type' => 'main'
             ]);
             
             // Assign attributes to variant

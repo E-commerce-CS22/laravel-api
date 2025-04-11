@@ -15,19 +15,16 @@ class AttributeSeeder extends Seeder
     public function run(): void
     {
         // Create attributes in the exact order required by AttributeValueSeeder
-        $color = $this->createAttributeIfNotExists('اللون');           // ID=1
-        $size = $this->createAttributeIfNotExists('المقاس');           // ID=2
-        $material = $this->createAttributeIfNotExists('المواد');       // ID=3
-        $placeholder4 = $this->createAttributeIfNotExists('مؤقت 4');   // ID=4
-        $placeholder5 = $this->createAttributeIfNotExists('مؤقت 5');   // ID=5
-        $storage = $this->createAttributeIfNotExists('التخزين');       // ID=6
-        $ram = $this->createAttributeIfNotExists('الذاكرة');           // ID=7
-        $processor = $this->createAttributeIfNotExists('المعالج');     // ID=8
-        $screenSize = $this->createAttributeIfNotExists('حجم الشاشة'); // ID=9
-        $connectivity = $this->createAttributeIfNotExists('الاتصال');  // ID=10
-        $battery = $this->createAttributeIfNotExists('سعة البطارية');  // ID=11
-        $graphics = $this->createAttributeIfNotExists('كرت الشاشة');   // ID=12
-        $caseType = $this->createAttributeIfNotExists('نوع العلبة');   // ID=13
+        $color = $this->createAttributeIfNotExists('اللون'); // ID=1
+        $size = $this->createAttributeIfNotExists('الحجم');  // ID=2
+        $material = $this->createAttributeIfNotExists('المواد'); // ID=3
+        $storage = $this->createAttributeIfNotExists('التخزين'); // ID=4
+        $ram = $this->createAttributeIfNotExists('الذاكرة'); // ID=5
+        $processor = $this->createAttributeIfNotExists('المعالج'); // ID=6
+        $placeholder4 = $this->createAttributeIfNotExists('دقة الشاشة');  // ID=7
+        $screenSize = $this->createAttributeIfNotExists('حجم الشاشة'); // ID=8
+        $battery = $this->createAttributeIfNotExists('سعة البطارية'); // ID=9
+        $graphics = $this->createAttributeIfNotExists('كرت الشاشة'); // ID=10
     }
     
     /**
