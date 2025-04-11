@@ -43,6 +43,9 @@ Route::get('/docs.json', function () {
     return response()->file(base_path('public/docs/swagger.json'));
 });
 
+// User Activity Tracking
+Route::middleware('auth:sanctum')->get('/activity/track', [\App\Http\Controllers\Api\UserActivityController::class, 'trackActivity']);
+
 // Protected Admin routes
 Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('admin')->group(function () {
@@ -121,6 +124,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::patch('/orders/{id}/payment-status', [AdminOrderController::class, 'updatePaymentStatus']);
         Route::patch('/orders/{id}/tracking', [AdminOrderController::class, 'updateTracking']);
         Route::get('/orders-statistics', [AdminOrderController::class, 'statistics']);
+        
+        // User Activity Statistics
+        Route::get('/user-activity', [\App\Http\Controllers\Api\Admin\UserActivityStatisticsController::class, 'index']);
     });
 });
 
