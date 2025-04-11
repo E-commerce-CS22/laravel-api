@@ -14,11 +14,10 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('product_id')->nullable()->constrained('products')->onDelete('cascade');
             $table->foreignId('product_variant_id')->nullable()->constrained('product_variants')->onDelete('cascade');
-            $table->string('image_path');
+            $table->string('image');
             $table->string('alt_text')->nullable();
             $table->boolean('is_primary')->default(false);
             $table->integer('sort_order')->default(0);
-            $table->enum('image_type', ['main', 'thumbnail', 'gallery', 'lifestyle'])->default('gallery');
             $table->timestamps();
 
             // An image can belong to either a product or a variant, but not both
