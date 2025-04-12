@@ -39,7 +39,7 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $product = Product::with(['tags:id,name,slug'])->find($id);
+        $product = Product::with(['tags:id,name,slug', 'variants.attributes', 'variants.attributeValues.attribute'])->find($id);
 
         if (!$product) {
             return response()->json(['message' => 'Product not found'], 404);
