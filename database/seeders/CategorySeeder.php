@@ -14,17 +14,17 @@ class CategorySeeder extends Seeder
             [
                 'name' => 'هواتف',
                 'description' => 'كل ما يتعلق بهواتف الهواتف الذكية',
-                'image' => 'categories/phones.png'
+                'image' => 'categories/phones.jpg'
             ],
             [
                 'name' => 'الرجال',
                 'description' => 'كل ما يتعلق بالرجال',
-                'image' => 'categories/men.png'
+                'image' => 'categories/men.jpg'
             ],
             [
                 'name' => 'النساء',
                 'description' => 'كل ما يتعلق بالنساء',
-                'image' => 'categories/women.png'
+                'image' => 'categories/women.jpg'
             ],
             [
                 'name' => 'المنزل',
