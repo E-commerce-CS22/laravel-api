@@ -11,6 +11,7 @@ use App\Models\ProductVariant;
 use App\Http\Resources\OrderResource;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
+use Carbon\Carbon;
 
 class OrderController extends Controller
 {
@@ -192,5 +193,27 @@ class OrderController extends Controller
         ];
         
         return response()->json($stats);
+    }
+
+    /**
+     * Get total orders and monthly breakdown starting from 2024.
+     */
+    public function getOrderStatistics()
+    {
+        // Total number of orders
+        $totalOrders = DB::table('orders')->count();
+
+        // Monthly breakdown of orders from 2024 to the current date
+        $monthlyOrders = DB::table('orders')
+            ->selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, COUNT(*) as total')
+            ->whereYear('created_at', '>=', 2024)
+            ->groupByRaw('YEAR(created_at), MONTH(created_at)')
+            ->orderByRaw('YEAR(created_at), MONTH(created_at)')
+            ->get();
+
+        return response()->json([
+            'total_orders' => $totalOrders,
+            'monthly_orders' => $monthlyOrders
+        ]);
     }
 }
