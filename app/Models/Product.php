@@ -71,7 +71,7 @@ class Product extends Model
     {
         return $this->images->map(function ($image) {
             return [
-                'url' => asset('storage/public/products/' . $this->id . '/' . $image->image),
+                'url' => asset('storage/products/' . $image->image),
                 'is_primary' => $image->is_primary,
                 'alt_text' => $image->alt_text,
                 'sort_order' => $image->sort_order,
