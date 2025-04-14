@@ -9,6 +9,7 @@ use App\Http\Resources\ProductResource;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -578,6 +579,38 @@ class ProductController extends Controller
             'success' => true,
             'message' => 'Discount removed successfully',
             'data' => new ProductResource($product)
+        ]);
+    }
+
+    public function getProductStatistics()
+    {
+        // Total number of products
+        $totalProducts = DB::table('products')->count();
+
+        // Monthly breakdown of added products from 2024 to the current date
+        $monthlyAddedProducts = DB::table('products')
+            ->selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, COUNT(*) as total')
+            ->whereYear('created_at', '>=', 2024)
+            ->groupByRaw('YEAR(created_at), MONTH(created_at)')
+            ->orderByRaw('YEAR(created_at), MONTH(created_at)')
+            ->get();
+
+        // Most sold products in the last month
+        $lastMonth = Carbon::now()->subMonth();
+        $mostSoldProducts = DB::table('order_items')
+            ->join('products', 'order_items.product_id', '=', 'products.id')
+            ->select('products.name', DB::raw('SUM(order_items.quantity) as total_sold'))
+            ->whereYear('order_items.created_at', $lastMonth->year)
+            ->whereMonth('order_items.created_at', $lastMonth->month)
+            ->groupBy('products.name')
+            ->orderByDesc('total_sold')
+            ->limit(3)
+            ->get();
+
+        return response()->json([
+            'total_products' => $totalProducts,
+            'monthly_added_products' => $monthlyAddedProducts,
+            'most_sold_products_last_month' => $mostSoldProducts
         ]);
     }
 }

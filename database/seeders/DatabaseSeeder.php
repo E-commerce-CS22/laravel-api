@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             AttributeValueSeeder::class,
             TagSeeder::class,
             ProductSeeder::class,
+            ImageSeeder::class,
             CartProductSeeder::class,
             CategorySeeder::class,
             CategoryProductSeeder::class,

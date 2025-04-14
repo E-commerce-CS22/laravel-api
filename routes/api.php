@@ -91,6 +91,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/products/{productId}/variants/{variantId}', [ProductVariantController::class, 'destroy']);
         Route::patch('/products/{productId}/variants/{variantId}/stock', [ProductVariantController::class, 'updateStock']);
         Route::patch('/products/{productId}/variants/{variantId}/default', [ProductVariantController::class, 'setDefault']);
+        
+        // Variant Attribute Management
+        Route::post('/variants/{variantId}/attributes', [\App\Http\Controllers\Api\Admin\VariantAttributeController::class, 'linkAttributeValue']);
+        Route::delete('/variants/{variantId}/attributes/{attributeId}', [\App\Http\Controllers\Api\Admin\VariantAttributeController::class, 'unlinkAttribute']);
+        Route::get('/variants/{variantId}/attributes', [\App\Http\Controllers\Api\Admin\VariantAttributeController::class, 'getVariantAttributes']);
+        Route::get('/products/{productId}/variants-with-attributes', [\App\Http\Controllers\Api\Admin\VariantAttributeController::class, 'getProductVariantsWithAttributes']);
 
         // Product Image Management
         Route::post('/products/{id}/images', [ProductImageController::class, 'uploadProductImages']);
@@ -127,6 +133,20 @@ Route::middleware('auth:sanctum')->group(function () {
         
         // User Activity Statistics
         Route::get('/user-activity', [\App\Http\Controllers\Api\Admin\UserActivityStatisticsController::class, 'index']);
+    });
+});
+
+// Add route for order statistics
+Route::middleware('auth:sanctum')->group(function () {
+    Route::prefix('admin')->group(function () {
+        Route::get('/orders/statistics', [AdminOrderController::class, 'getOrderStatistics']);
+    });
+});
+
+// Add route for product statistics
+Route::middleware('auth:sanctum')->group(function () {
+    Route::prefix('admin')->group(function () {
+        Route::get('/products/statistics', [ProductController::class, 'getProductStatistics']);
     });
 });
 

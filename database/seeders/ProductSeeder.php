@@ -73,16 +73,7 @@ class ProductSeeder extends Seeder
             'parent_id' => null,
         ]);
 
-        // Add product images
-        ProductImage::create([
-            'product_id' => $parent->id,
-            'product_variant_id' => null,
-            'image' => 'samsung-s24-ultra-main.jpg',
-            'alt_text' => 'سامسونج جالاكسي إس 24 ألترا',
-            'is_primary' => true,
-        ]);
-
-        // Create variants
+        // Create variants - simplified to just 3 variants
         $variants = [
             [
                 'storage' => '256 جيجابايت',
@@ -94,47 +85,20 @@ class ProductSeeder extends Seeder
                 'is_default' => true,
             ],
             [
-                'storage' => '256 جيجابايت',
-                'ram' => '12 جيجابايت',
-                'color' => 'تيتانيوم رمادي',
-                'price' => 1399.99,
-                'sku' => 'SGS24U-256-12-TG',
-                'stock' => 45,
-                'is_default' => false,
-            ],
-            [
-                'storage' => '256 جيجابايت',
-                'ram' => '12 جيجابايت',
-                'color' => 'تيتانيوم بنفسجي',
-                'price' => 1399.99,
-                'sku' => 'SGS24U-256-12-TV',
-                'stock' => 40,
-                'is_default' => false,
-            ],
-            [
-                'storage' => '512 جيجابايت',
-                'ram' => '12 جيجابايت',
-                'color' => 'تيتانيوم أسود',
-                'price' => 1599.99,
-                'sku' => 'SGS24U-512-12-TB',
-                'stock' => 35,
-                'is_default' => false,
-            ],
-            [
                 'storage' => '512 جيجابايت',
                 'ram' => '12 جيجابايت',
                 'color' => 'تيتانيوم رمادي',
                 'price' => 1599.99,
                 'sku' => 'SGS24U-512-12-TG',
-                'stock' => 30,
+                'stock' => 35,
                 'is_default' => false,
             ],
             [
                 'storage' => '1 تيرابايت',
                 'ram' => '12 جيجابايت',
-                'color' => 'تيتانيوم أسود',
+                'color' => 'تيتانيوم بنفسجي',
                 'price' => 1799.99,
-                'sku' => 'SGS24U-1TB-12-TB',
+                'sku' => 'SGS24U-1TB-12-TV',
                 'stock' => 25,
                 'is_default' => false,
             ],
@@ -236,7 +200,7 @@ class ProductSeeder extends Seeder
             'is_primary' => true,
         ]);
 
-        // Create variants
+        // Create variants - simplified to just 4 variants (one for each color in a common storage size)
         $variants = [
             [
                 'storage' => '128 جيجابايت',
@@ -248,38 +212,6 @@ class ProductSeeder extends Seeder
             ],
             [
                 'storage' => '256 جيجابايت',
-                'color' => 'تيتانيوم طبيعي',
-                'price' => 1099.99,
-                'sku' => 'IP15P-256-NT',
-                'stock' => 85,
-                'is_default' => false,
-            ],
-            [
-                'storage' => '512 جيجابايت',
-                'color' => 'تيتانيوم طبيعي',
-                'price' => 1299.99,
-                'sku' => 'IP15P-512-NT',
-                'stock' => 60,
-                'is_default' => false,
-            ],
-            [
-                'storage' => '1 تيرابايت',
-                'color' => 'تيتانيوم طبيعي',
-                'price' => 1499.99,
-                'sku' => 'IP15P-1TB-NT',
-                'stock' => 40,
-                'is_default' => false,
-            ],
-            [
-                'storage' => '128 جيجابايت',
-                'color' => 'تيتانيوم أزرق',
-                'price' => 999.99,
-                'sku' => 'IP15P-128-BT',
-                'stock' => 90,
-                'is_default' => false,
-            ],
-            [
-                'storage' => '256 جيجابايت',
                 'color' => 'تيتانيوم أزرق',
                 'price' => 1099.99,
                 'sku' => 'IP15P-256-BT',
@@ -287,35 +219,19 @@ class ProductSeeder extends Seeder
                 'is_default' => false,
             ],
             [
-                'storage' => '128 جيجابايت',
+                'storage' => '512 جيجابايت',
                 'color' => 'تيتانيوم أبيض',
-                'price' => 999.99,
-                'sku' => 'IP15P-128-WT',
-                'stock' => 80,
+                'price' => 1299.99,
+                'sku' => 'IP15P-512-WT',
+                'stock' => 60,
                 'is_default' => false,
             ],
             [
-                'storage' => '256 جيجابايت',
-                'color' => 'تيتانيوم أبيض',
-                'price' => 1099.99,
-                'sku' => 'IP15P-256-WT',
-                'stock' => 65,
-                'is_default' => false,
-            ],
-            [
-                'storage' => '128 جيجابايت',
+                'storage' => '1 تيرابايت',
                 'color' => 'تيتانيوم أسود',
-                'price' => 999.99,
-                'sku' => 'IP15P-128-BKT',
-                'stock' => 95,
-                'is_default' => false,
-            ],
-            [
-                'storage' => '256 جيجابايت',
-                'color' => 'تيتانيوم أسود',
-                'price' => 1099.99,
-                'sku' => 'IP15P-256-BKT',
-                'stock' => 80,
+                'price' => 1499.99,
+                'sku' => 'IP15P-1TB-BKT',
+                'stock' => 40,
                 'is_default' => false,
             ],
         ];
@@ -400,7 +316,7 @@ class ProductSeeder extends Seeder
             'is_primary' => true,
         ]);
 
-        // Create variants
+        // Create variants - simplified to just 3 variants (one for each color)
         $variants = [
             [
                 'storage' => '128 جيجابايت',
@@ -412,30 +328,6 @@ class ProductSeeder extends Seeder
             ],
             [
                 'storage' => '256 جيجابايت',
-                'color' => 'أسود',
-                'price' => 999.99,
-                'sku' => 'GP8P-256-OBS',
-                'stock' => 60,
-                'is_default' => false,
-            ],
-            [
-                'storage' => '512 جيجابايت',
-                'color' => 'أسود',
-                'price' => 1099.99,
-                'sku' => 'GP8P-512-OBS',
-                'stock' => 45,
-                'is_default' => false,
-            ],
-            [
-                'storage' => '128 جيجابايت',
-                'color' => 'أبيض خزفي',
-                'price' => 899.99,
-                'sku' => 'GP8P-128-POR',
-                'stock' => 70,
-                'is_default' => false,
-            ],
-            [
-                'storage' => '256 جيجابايت',
                 'color' => 'أبيض خزفي',
                 'price' => 999.99,
                 'sku' => 'GP8P-256-POR',
@@ -443,19 +335,11 @@ class ProductSeeder extends Seeder
                 'is_default' => false,
             ],
             [
-                'storage' => '128 جيجابايت',
+                'storage' => '512 جيجابايت',
                 'color' => 'خليجي',
-                'price' => 899.99,
-                'sku' => 'GP8P-128-BAY',
-                'stock' => 65,
-                'is_default' => false,
-            ],
-            [
-                'storage' => '256 جيجابايت',
-                'color' => 'خليجي',
-                'price' => 999.99,
-                'sku' => 'GP8P-256-BAY',
-                'stock' => 50,
+                'price' => 1099.99,
+                'sku' => 'GP8P-512-BAY',
+                'stock' => 45,
                 'is_default' => false,
             ],
         ];
@@ -540,7 +424,7 @@ class ProductSeeder extends Seeder
             'is_primary' => true,
         ]);
 
-        // Create variants
+        // Create variants - simplified to just 2 variants
         $variants = [
             [
                 'storage' => '128 جيجابايت',
@@ -550,24 +434,6 @@ class ProductSeeder extends Seeder
                 'sku' => 'XRN12-128-6-OG',
                 'stock' => 120,
                 'is_default' => true,
-            ],
-            [
-                'storage' => '128 جيجابايت',
-                'ram' => '8 جيجابايت',
-                'color' => 'رمادي عقيق',
-                'price' => 199.99,
-                'sku' => 'XRN12-128-8-OG',
-                'stock' => 100,
-                'is_default' => false,
-            ],
-            [
-                'storage' => '128 جيجابايت',
-                'ram' => '6 جيجابايت',
-                'color' => 'أزرق ثلجي',
-                'price' => 179.99,
-                'sku' => 'XRN12-128-6-IB',
-                'stock' => 110,
-                'is_default' => false,
             ],
             [
                 'storage' => '128 جيجابايت',
@@ -676,7 +542,7 @@ class ProductSeeder extends Seeder
             'is_primary' => true,
         ]);
 
-        // Create variants
+        // Create variants - simplified to just 2 variants (one for each screen size)
         $variants = [
             [
                 'screen_size' => '14 بوصة',
@@ -688,50 +554,6 @@ class ProductSeeder extends Seeder
                 'sku' => 'MBP-14-M2P-512-16-SG',
                 'stock' => 50,
                 'is_default' => true,
-            ],
-            [
-                'screen_size' => '14 بوصة',
-                'processor' => 'Apple M2 Pro',
-                'storage' => '1 تيرابايت',
-                'ram' => '16 جيجابايت',
-                'color' => 'رمادي فلكي',
-                'price' => 2199.99,
-                'sku' => 'MBP-14-M2P-1TB-16-SG',
-                'stock' => 40,
-                'is_default' => false,
-            ],
-            [
-                'screen_size' => '14 بوصة',
-                'processor' => 'Apple M2 Max',
-                'storage' => '1 تيرابايت',
-                'ram' => '32 جيجابايت',
-                'color' => 'رمادي فلكي',
-                'price' => 2899.99,
-                'sku' => 'MBP-14-M2M-1TB-32-SG',
-                'stock' => 30,
-                'is_default' => false,
-            ],
-            [
-                'screen_size' => '16 بوصة',
-                'processor' => 'Apple M2 Pro',
-                'storage' => '512 جيجابايت',
-                'ram' => '16 جيجابايت',
-                'color' => 'رمادي فلكي',
-                'price' => 2499.99,
-                'sku' => 'MBP-16-M2P-512-16-SG',
-                'stock' => 45,
-                'is_default' => false,
-            ],
-            [
-                'screen_size' => '16 بوصة',
-                'processor' => 'Apple M2 Pro',
-                'storage' => '1 تيرابايت',
-                'ram' => '16 جيجابايت',
-                'color' => 'رمادي فلكي',
-                'price' => 2699.99,
-                'sku' => 'MBP-16-M2P-1TB-16-SG',
-                'stock' => 35,
-                'is_default' => false,
             ],
             [
                 'screen_size' => '16 بوصة',
@@ -874,7 +696,7 @@ class ProductSeeder extends Seeder
             'is_primary' => true,
         ]);
 
-        // Create variants
+        // Create variants - simplified to just 2 variants (one for each processor type)
         $variants = [
             [
                 'processor' => 'i7',
@@ -885,36 +707,6 @@ class ProductSeeder extends Seeder
                 'sku' => 'DXPS15-i7-512-16-3050',
                 'stock' => 60,
                 'is_default' => true,
-            ],
-            [
-                'processor' => 'i7',
-                'storage' => '1 تيرابايت',
-                'ram' => '16 جيجابايت',
-                'graphics' => 'RTX 3050',
-                'price' => 1899.99,
-                'sku' => 'DXPS15-i7-1TB-16-3050',
-                'stock' => 50,
-                'is_default' => false,
-            ],
-            [
-                'processor' => 'i7',
-                'storage' => '1 تيرابايت',
-                'ram' => '32 جيجابايت',
-                'graphics' => 'RTX 3050 Ti',
-                'price' => 2099.99,
-                'sku' => 'DXPS15-i7-1TB-32-3050Ti',
-                'stock' => 40,
-                'is_default' => false,
-            ],
-            [
-                'processor' => 'i9',
-                'storage' => '1 تيرابايت',
-                'ram' => '32 جيجابايت',
-                'graphics' => 'RTX 3050 Ti',
-                'price' => 2299.99,
-                'sku' => 'DXPS15-i9-1TB-32-3050Ti',
-                'stock' => 35,
-                'is_default' => false,
             ],
             [
                 'processor' => 'i9',
@@ -1040,7 +832,7 @@ class ProductSeeder extends Seeder
             'is_primary' => true,
         ]);
 
-        // Create variants
+        // Create variants - simplified to just 2 variants (one for each processor type)
         $variants = [
             [
                 'processor' => 'i5',
@@ -1051,26 +843,6 @@ class ProductSeeder extends Seeder
                 'sku' => 'LTP-X1C-i5-256-16-BLK',
                 'stock' => 50,
                 'is_default' => true,
-            ],
-            [
-                'processor' => 'i5',
-                'storage' => '512GB',
-                'ram' => '16GB',
-                'color' => 'Black',
-                'price' => 1599.99,
-                'sku' => 'LTP-X1C-i5-512-16-BLK',
-                'stock' => 45,
-                'is_default' => false,
-            ],
-            [
-                'processor' => 'i7',
-                'storage' => '512GB',
-                'ram' => '16GB',
-                'color' => 'Black',
-                'price' => 1799.99,
-                'sku' => 'LTP-X1C-i7-512-16-BLK',
-                'stock' => 40,
-                'is_default' => false,
             ],
             [
                 'processor' => 'i7',
@@ -1196,7 +968,7 @@ class ProductSeeder extends Seeder
             'is_primary' => true,
         ]);
 
-        // Create variants
+        // Create variants - simplified to just 2 color variants
         $variants = [
             [
                 'color' => 'أسود',
@@ -1210,13 +982,6 @@ class ProductSeeder extends Seeder
                 'price' => 399.99,
                 'sku' => 'SONY-WH1000XM5-SLV',
                 'stock' => 65,
-                'is_default' => false,
-            ],
-            [
-                'color' => 'ذهبي',
-                'price' => 419.99,
-                'sku' => 'SONY-WH1000XM5-MDBL',
-                'stock' => 45,
                 'is_default' => false,
             ],
         ];
@@ -1285,7 +1050,7 @@ class ProductSeeder extends Seeder
             'is_primary' => true,
         ]);
 
-        // Create variants - using material attribute instead of case_type
+        // Create variants - simplified to just 2 case variants
         $variants = [
             [
                 'material' => 'بلاستيك', // Using existing material attribute value
@@ -1301,14 +1066,6 @@ class ProductSeeder extends Seeder
                 'price' => 269.99,
                 'sku' => 'APP2-MAGSAFE',
                 'stock' => 85,
-                'is_default' => false,
-            ],
-            [
-                'material' => 'ألومنيوم', // Using existing material attribute value
-                'variant_name' => 'Wireless Charging Case with Engraving',
-                'price' => 289.99,
-                'sku' => 'APP2-WIRELESS-ENG',
-                'stock' => 60,
                 'is_default' => false,
             ],
         ];
@@ -1377,7 +1134,7 @@ class ProductSeeder extends Seeder
             'is_primary' => true,
         ]);
 
-        // Create variants
+        // Create variants - simplified to just 2 color variants
         $variants = [
             [
                 'color' => 'أسود',
@@ -1391,20 +1148,6 @@ class ProductSeeder extends Seeder
                 'price' => 129.99,
                 'sku' => 'BOSE-SS-AQA',
                 'stock' => 50,
-                'is_default' => false,
-            ],
-            [
-                'color' => 'رمادي',
-                'price' => 129.99,
-                'sku' => 'BOSE-SS-CIT',
-                'stock' => 45,
-                'is_default' => false,
-            ],
-            [
-                'color' => 'أخضر',
-                'price' => 139.99,
-                'sku' => 'BOSE-SS-RED',
-                'stock' => 40,
                 'is_default' => false,
             ],
         ];
