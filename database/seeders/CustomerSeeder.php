@@ -21,6 +21,7 @@ class CustomerSeeder extends Seeder
                 'city' => 'صنعاء',
                 'cart_id' => 1,
                 'wishlist_id' => 1,
+                'last_active' => '2025-01-15',
             ],
             [
                 'first_name' => 'أروى',
@@ -32,6 +33,7 @@ class CustomerSeeder extends Seeder
                 'city' => 'عدن',
                 'cart_id' => 2,
                 'wishlist_id' => 2,
+                'last_active' => '2025-02-10',
             ],
             [
                 'first_name' => 'معاذ',
@@ -43,6 +45,7 @@ class CustomerSeeder extends Seeder
                 'city' => 'تعز',
                 'cart_id' => 3,
                 'wishlist_id' => 3,
+                'last_active' => '2025-03-05',
             ],
             [
                 'first_name' => 'سميرة',
@@ -54,6 +57,7 @@ class CustomerSeeder extends Seeder
                 'city' => 'الحديدة',
                 'cart_id' => 4,
                 'wishlist_id' => 4,
+                'last_active' => '2025-04-01',
             ],
             [
                 'first_name' => 'نبيل',
@@ -65,6 +69,7 @@ class CustomerSeeder extends Seeder
                 'city' => 'إب',
                 'cart_id' => 5,
                 'wishlist_id' => 5,
+                'last_active' => '2025-01-20',
             ],
             [
                 'first_name' => 'أمل',
@@ -76,6 +81,7 @@ class CustomerSeeder extends Seeder
                 'city' => 'ذمار',
                 'cart_id' => 6,
                 'wishlist_id' => 6,
+                'last_active' => '2025-02-15',
             ],
             [
                 'first_name' => 'جمال',
@@ -87,6 +93,7 @@ class CustomerSeeder extends Seeder
                 'city' => 'عدن',
                 'cart_id' => 7,
                 'wishlist_id' => 7,
+                'last_active' => '2025-03-10',
             ],
             [
                 'first_name' => 'رؤى',
@@ -98,6 +105,7 @@ class CustomerSeeder extends Seeder
                 'city' => 'صنعاء',
                 'cart_id' => 8,
                 'wishlist_id' => 8,
+                'last_active' => '2025-04-05',
             ],
             [
                 'first_name' => 'طارق',
@@ -109,6 +117,7 @@ class CustomerSeeder extends Seeder
                 'city' => 'تعز',
                 'cart_id' => 9,
                 'wishlist_id' => 9,
+                'last_active' => '2025-01-25',
             ],
             [
                 'first_name' => 'هناء',
@@ -120,6 +129,7 @@ class CustomerSeeder extends Seeder
                 'city' => 'مأرب',
                 'cart_id' => 10,
                 'wishlist_id' => 10,
+                'last_active' => '2025-02-20',
             ],
             [
                 'first_name' => 'أحمد',
@@ -131,6 +141,7 @@ class CustomerSeeder extends Seeder
                 'city' => 'إب',
                 'cart_id' => 11,
                 'wishlist_id' => 11,
+                'last_active' => '2025-03-15',
             ],
             [
                 'first_name' => 'منى',
@@ -142,6 +153,7 @@ class CustomerSeeder extends Seeder
                 'city' => 'صنعاء',
                 'cart_id' => 12,
                 'wishlist_id' => 12,
+                'last_active' => '2025-04-10',
             ],
             [
                 'first_name' => 'خالد',
@@ -153,6 +165,7 @@ class CustomerSeeder extends Seeder
                 'city' => 'عدن',
                 'cart_id' => 13,
                 'wishlist_id' => 13,
+                'last_active' => '2025-01-30',
             ],
             [
                 'first_name' => 'ندى',
@@ -164,6 +177,7 @@ class CustomerSeeder extends Seeder
                 'city' => 'صنعاء',
                 'cart_id' => 14,
                 'wishlist_id' => 14,
+                'last_active' => '2025-02-25',
             ],
             [
                 'first_name' => 'عمر',
@@ -175,6 +189,7 @@ class CustomerSeeder extends Seeder
                 'city' => 'تعز',
                 'cart_id' => 15,
                 'wishlist_id' => 15,
+                'last_active' => '2025-03-20',
             ],
             [
                 'first_name' => 'إيمان',
@@ -186,6 +201,7 @@ class CustomerSeeder extends Seeder
                 'city' => 'إب',
                 'cart_id' => 16,
                 'wishlist_id' => 16,
+                'last_active' => '2025-04-15',
             ],
             [
                 'first_name' => 'سعيد',
@@ -197,6 +213,7 @@ class CustomerSeeder extends Seeder
                 'city' => 'عدن',
                 'cart_id' => 17,
                 'wishlist_id' => 17,
+                'last_active' => '2025-01-05',
             ],
             [
                 'first_name' => 'ليلى',
@@ -208,6 +225,7 @@ class CustomerSeeder extends Seeder
                 'city' => 'تعز',
                 'cart_id' => 18,
                 'wishlist_id' => 18,
+                'last_active' => '2025-02-10',
             ],
             [
                 'first_name' => 'مازن',
@@ -219,6 +237,7 @@ class CustomerSeeder extends Seeder
                 'city' => 'صنعاء',
                 'cart_id' => 19,
                 'wishlist_id' => 19,
+                'last_active' => '2025-03-15',
             ],
             [
                 'first_name' => 'سامر',
@@ -230,6 +249,7 @@ class CustomerSeeder extends Seeder
                 'city' => 'الحديدة',
                 'cart_id' => 20,
                 'wishlist_id' => 20,
+                'last_active' => '2025-04-20',
             ],
             [
                 'first_name' => 'فاطمة',
@@ -241,6 +261,7 @@ class CustomerSeeder extends Seeder
                 'city' => 'صنعاء',
                 'cart_id' => 21,
                 'wishlist_id' => 21,
+                'last_active' => '2025-01-10',
             ],
             [
                 'first_name' => 'محمد',
@@ -252,6 +273,7 @@ class CustomerSeeder extends Seeder
                 'city' => 'عدن',
                 'cart_id' => 22,
                 'wishlist_id' => 22,
+                'last_active' => '2025-02-15',
             ],
             [
                 'first_name' => 'عبدالله',
@@ -263,6 +285,7 @@ class CustomerSeeder extends Seeder
                 'city' => 'تعز',
                 'cart_id' => 23,
                 'wishlist_id' => 23,
+                'last_active' => '2025-03-20',
             ],
             [
                 'first_name' => 'ريم',
@@ -274,6 +297,7 @@ class CustomerSeeder extends Seeder
                 'city' => 'إب',
                 'cart_id' => 24,
                 'wishlist_id' => 24,
+                'last_active' => '2025-04-25',
             ],
             [
                 'first_name' => 'أسامة',
@@ -285,6 +309,7 @@ class CustomerSeeder extends Seeder
                 'city' => 'عدن',
                 'cart_id' => 25,
                 'wishlist_id' => 25,
+                'last_active' => '2025-01-15',
             ],
             [
                 'first_name' => 'سارة',
@@ -296,6 +321,7 @@ class CustomerSeeder extends Seeder
                 'city' => 'صنعاء',
                 'cart_id' => 26,
                 'wishlist_id' => 26,
+                'last_active' => '2025-02-20',
             ],
             [
                 'first_name' => 'زياد',
@@ -307,6 +333,7 @@ class CustomerSeeder extends Seeder
                 'city' => 'عدن',
                 'cart_id' => 27,
                 'wishlist_id' => 27,
+                'last_active' => '2025-03-25',
             ],
             [
                 'first_name' => 'رنا',
@@ -318,6 +345,7 @@ class CustomerSeeder extends Seeder
                 'city' => 'الحديدة',
                 'cart_id' => 28,
                 'wishlist_id' => 28,
+                'last_active' => '2025-04-30',
             ],
             [
                 'first_name' => 'باسم',
@@ -329,6 +357,7 @@ class CustomerSeeder extends Seeder
                 'city' => 'صنعاء',
                 'cart_id' => 29,
                 'wishlist_id' => 29,
+                'last_active' => '2025-01-20',
             ],
             [
                 'first_name' => 'هدى',
@@ -340,6 +369,7 @@ class CustomerSeeder extends Seeder
                 'city' => 'تعز',
                 'cart_id' => 30,
                 'wishlist_id' => 30,
+                'last_active' => '2025-02-25',
             ],
         ];
         
@@ -357,6 +387,7 @@ class CustomerSeeder extends Seeder
                 'city' => $data['city'],
                 'cart_id' => $data['cart_id'],
                 'wishlist_id' => $data['wishlist_id'],
+                'last_active' => $data['last_active'],
             ]);
         }
     }
