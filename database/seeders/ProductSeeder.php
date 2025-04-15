@@ -26,8 +26,11 @@ class ProductSeeder extends Seeder
         // Smartphones
         $this->createSamsungS24();
         $this->createIPhone15Pro();
-        $this->createGooglePixel8Pro();
-        $this->createXiaomiRedmiNote12();
+
+        // $this->createMenCollenction();
+        // $this->createWomenCollenction();
+
+        $this->createSofa();
         
         // Laptops
         $this->createMacbookPro();
@@ -261,6 +264,88 @@ class ProductSeeder extends Seeder
                     'product_variant_id' => $productVariant->id,
                     'attribute_id' => $colorAttribute->id,
                     'attribute_value_id' => $colorValue->id,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+        }
+    }
+
+    private function createSofa()
+    {
+        // إنشاء المنتج الرئيسي
+        $parent = Product::create([
+            'name' => 'أريكة فاخرة',
+            'description' => 'أريكة مريحة وعصرية مصنوعة من مواد عالية الجودة ومناسبة لجميع أنواع الديكورات.',
+            'price' => 499.99,
+            'is_parent' => true,
+            'parent_id' => null,
+        ]);
+
+        // إنشاء المتغيرات - مبسطة إلى متغيرين فقط (لونين مختلفين)
+        $variants = [
+            [
+                'color' => 'رمادي',
+                'material' => 'قماش',
+                'price' => 499.99,
+                'sku' => 'SOFA-GRY-FAB',
+                'stock' => 20,
+                'is_default' => true,
+            ],
+            [
+                'color' => 'بيج',
+                'material' => 'جلد',
+                'price' => 599.99,
+                'sku' => 'SOFA-BGE-LTH',
+                'stock' => 15,
+                'is_default' => false,
+            ],
+        ];
+
+        // الحصول على معرفات السمات
+        $colorAttribute = Attribute::where('name', 'اللون')->first();
+        $materialAttribute = Attribute::where('name', 'المواد')->first();
+
+        foreach ($variants as $variant) {
+            // إنشاء عنوان المتغير
+            $variantTitle = "أريكة فاخرة - {$variant['color']} - {$variant['material']}";
+
+            // إنشاء متغير المنتج
+            $productVariant = ProductVariant::create([
+                'product_id' => $parent->id,
+                'sku' => $variant['sku'],
+                'price' => $variant['price'],
+                'stock' => $variant['stock'],
+                'is_default' => $variant['is_default'],
+                'variant_title' => $variantTitle,
+            ]);
+
+            // تعيين السمات للمتغير
+            // سمة اللون
+            $colorValue = AttributeValue::where('attribute_id', $colorAttribute->id)
+                ->where('name', $variant['color'])
+                ->first();
+
+            if ($colorValue) {
+                DB::table('attribute_product_variant')->insert([
+                    'product_variant_id' => $productVariant->id,
+                    'attribute_id' => $colorAttribute->id,
+                    'attribute_value_id' => $colorValue->id,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+
+            // سمة المواد
+            $materialValue = AttributeValue::where('attribute_id', $materialAttribute->id)
+                ->where('name', $variant['material'])
+                ->first();
+
+            if ($materialValue) {
+                DB::table('attribute_product_variant')->insert([
+                    'product_variant_id' => $productVariant->id,
+                    'attribute_id' => $materialAttribute->id,
+                    'attribute_value_id' => $materialValue->id,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
