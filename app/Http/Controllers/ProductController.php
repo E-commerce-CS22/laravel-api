@@ -19,7 +19,10 @@ class ProductController extends Controller
         $products = Product::with([
             'tags:id,name,slug',
             'variants.attributes',
-            'variants.attributeValues.attribute'
+            'variants.attributeValues.attribute',
+            'images' => function ($query) {
+                $query->where('is_primary', true)->limit(1);
+            }
         ])->paginate($perPage, ['*'], 'page', $page);
         
         return ProductResource::collection($products);
