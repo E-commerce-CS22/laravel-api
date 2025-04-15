@@ -16,7 +16,7 @@ class ImageSeeder extends Seeder
             [
                 'product_id' => 1,
                 'product_variant_id' => null,
-                'image' => 'samsung1.png',
+                'image' => '1.jpg',
                 'alt_text' => 'Example Image 1',
                 'is_primary' => true,
                 'created_at' => now(),
@@ -25,7 +25,7 @@ class ImageSeeder extends Seeder
             [
                 'product_id' => 1,
                 'product_variant_id' => null,
-                'image' => 'samsung2.webp',
+                'image' => '2.webp',
                 'alt_text' => 'Image 2',
                 'is_primary' => false,
                 'created_at' => now(),
@@ -34,7 +34,7 @@ class ImageSeeder extends Seeder
             [
                 'product_id' => 1,
                 'product_variant_id' => null,
-                'image' => 'samsung3.webp',
+                'image' => '3.webp',
                 'alt_text' => 'Image 3',
                 'is_primary' => false,
                 'created_at' => now(),
@@ -43,7 +43,7 @@ class ImageSeeder extends Seeder
             [
                 'product_id' => 1,
                 'product_variant_id' => null,
-                'image' => 'samsung4.webp',
+                'image' => '4.webp',
                 'alt_text' => 'Image 4',
                 'is_primary' => false,
                 'created_at' => now(),
@@ -52,7 +52,7 @@ class ImageSeeder extends Seeder
             [
                 'product_id' => 1,
                 'product_variant_id' => null,
-                'image' => 'samsung5.webp',
+                'image' => '5.webp',
                 'alt_text' => 'Image 3',
                 'is_primary' => false,
                 'created_at' => now(),
